@@ -233,6 +233,14 @@ section { padding-block: var(--sp-8); }
 
 /* --- Hero --- */
 .hero { padding-block: var(--sp-9) var(--sp-8); }
+/* V1: palavra de destaque = italico da Archivo na cor de acao (solda sobre grafite, solda-texto sobre papel via --accent-ink) */
+h1 em, h2 em { font-style: italic; color: var(--accent-ink); padding-right: 0.06em; }
+/* V1: brilho suave de solda subindo do fundo do hero (so degrade, sem neon) */
+.hero {
+  background:
+    radial-gradient(ellipse 80% 55% at 70% 115%, rgb(255 90 31 / 0.26), transparent 70%),
+    var(--color-bg-dark);
+}
 .hero h1 { font-size: var(--fs-h1); }
 @media (min-width: 768px) { .hero h1 { font-size: var(--fs-display); } }
 /* --- Porca cromada (N4) ---------------------------------------
