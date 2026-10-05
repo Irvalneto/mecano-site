@@ -637,9 +637,9 @@ section { padding-block: var(--sp-8); }
 .wa-float:hover { background: var(--color-accent-hover); }
 .wa-float:active { transform: scale(0.96); }
 .wa-float svg { width: 26px; height: 26px; }
-.wa-float.is-hidden { opacity: 0; pointer-events: none; }
+.wa-float.is-hidden { opacity: 0; visibility: hidden; pointer-events: none; }
 .site-footer { padding-bottom: calc(var(--sp-8) + 56px); }
-@media (min-width: 768px) { .site-footer { padding-bottom: var(--sp-6); } }
+[id] { scroll-margin-top: 6rem; }
 .wa-inline { margin-block: var(--sp-3) 0; }
 
 .quick-pick { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--sp-3); max-width: 44rem; }
