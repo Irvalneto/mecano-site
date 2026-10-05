@@ -243,8 +243,6 @@ function initContactForm() {
       return;
     }
 
-    track("envio-formulario");
-
     // Formulário desligado: sem requisição, mostra os canais diretos (dados preservados).
     if (!FORM_ENDPOINT) {
       status.dataset.state = "info";
