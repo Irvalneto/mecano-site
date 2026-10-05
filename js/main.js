@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initHookSidebar();
   initHeroMeta();
   initWhatsappFloat();
+  initAnalytics();
 });
 
 /* --- Menu mobile --- */
@@ -242,6 +243,8 @@ function initContactForm() {
       return;
     }
 
+    track("envio-formulario");
+
     // Formulário desligado: sem requisição, mostra os canais diretos (dados preservados).
     if (!FORM_ENDPOINT) {
       status.dataset.state = "info";
@@ -288,4 +291,36 @@ function initWhatsappFloat() {
     float.classList.toggle("is-hidden", entry.isIntersecting);
     float.tabIndex = entry.isIntersecting ? -1 : 0;
   }).observe(form);
+}
+
+/* --- Medição de leads (GoatCounter: grátis, sem cookie, sem banner).
+   Código do site vazio = nada carrega e nenhum erro. Para ligar: preencher abaixo. */
+const GOATCOUNTER_CODE = "";
+
+function initAnalytics() {
+  if (!GOATCOUNTER_CODE) return;
+  const script = document.createElement("script");
+  script.async = true;
+  script.src = "https://gc.zgo.at/count.js";
+  script.dataset.goatcounter = `https://${GOATCOUNTER_CODE}.goatcounter.com/count`;
+  document.head.appendChild(script);
+
+  const kinds = [
+    ["tel:", "clique-telefone"],
+    ["mailto:", "clique-email"],
+    ["https://wa.me/", "clique-whatsapp"],
+    ["https://www.instagram.com/", "clique-instagram"],
+  ];
+  document.addEventListener("click", (e) => {
+    const href = e.target.closest?.("a[href]")?.getAttribute("href");
+    const hit = href && kinds.find(([prefix]) => href.startsWith(prefix));
+    if (hit) track(hit[1]);
+  });
+}
+
+// Evento de conversão; se o script foi bloqueado (ou o código está vazio), não faz nada.
+function track(name) {
+  try {
+    window.goatcounter?.count?.({ path: name, title: name, event: true });
+  } catch (_) {}
 }
