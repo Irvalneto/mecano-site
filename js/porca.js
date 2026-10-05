@@ -13,8 +13,9 @@
       matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
   const LAYERS = 10, STEP = 5;          // 10 x 5 px = ~50 px de profundidade
-  const MAX = 24, REST_X = 10, REST_Y = -16;
-  const TAU = 85;                        // ms: constante de tempo da mola
+  const MAX_X = 24, MAX_Y = 42;          // graus: vira inteira p/ os dois lados
+  const REST_X = 10, REST_Y = -16;
+  const TAU = 150;                       // ms: constante de tempo (maior = mais suave)
 
   // Brilho: mascara estatica (CSS) > luz que se desloca por transform.
   const sheen = document.createElement("span");
@@ -61,7 +62,9 @@
     const r = el.getBoundingClientRect();
     const px = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width));
     const py = Math.min(1, Math.max(0, (e.clientY - r.top) / r.height));
-    ty = REST_Y + (px - 0.5) * 2 * MAX; tx = REST_X - (py - 0.5) * 2 * MAX;
+    // curso total em 80% da caixa: vira inteira antes de o cursor chegar na borda
+    const nx = Math.max(-1, Math.min(1, (px - 0.5) / 0.4)), ny = Math.max(-1, Math.min(1, (py - 0.5) / 0.4));
+    ty = nx * MAX_Y; tx = -ny * MAX_X;
     gtx = px; gty = py;
     go();
   });
