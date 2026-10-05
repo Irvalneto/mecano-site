@@ -609,7 +609,7 @@ section { padding-block: var(--sp-8); }
   width: 24px;
   flex-shrink: 0;
   text-align: center;
-  color: var(--color-accent);
+  color: var(--accent-ink);
 }
 .hook-sidebar-list a.is-active .num { font-weight: 700; }
 .hook-sidebar-list .label { opacity: 0; transition: opacity var(--dur-fast) var(--ease-out); }
