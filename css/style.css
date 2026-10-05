@@ -176,6 +176,14 @@ a.nav-cta { display: none; }
 }
 .nav-mobile .btn { margin-top: var(--sp-6); width: 100%; justify-content: center; }
 
+/* sem JS: o botao do menu nao funciona, entao a navegacao fica aberta no fluxo da pagina */
+@media (scripting: none) {
+  .menu-toggle { display: none; }
+  .nav-mobile { position: static; opacity: 1; pointer-events: auto; transform: none; padding-block: var(--sp-4); }
+  .nav-mobile ul { flex-direction: row; flex-wrap: wrap; gap: var(--sp-3) var(--sp-5); }
+  .nav-mobile .btn { margin-top: var(--sp-4); }
+}
+
 @media (min-width: 1024px) {
   /* V5: logo a esquerda, 4 links realmente centralizados, acao a direita */
   .site-header .bar { display: grid; grid-template-columns: 1fr auto 1fr; }
