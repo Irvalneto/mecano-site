@@ -404,15 +404,24 @@ h1 em, h2 em { font-style: italic; color: var(--accent-ink); padding-right: 0.06
 }
 @keyframes svc-in { from { opacity: 0; transform: translateY(8px); } }
 
-/* --- Processo (steps) --- */
-.steps { display: grid; gap: var(--sp-6); grid-template-columns: 1fr; }
+/* --- Processo (V3): 4 cartoes com maquete. 360 empilha; 768 2x2; 1024 em linha --- */
+.steps { display: grid; gap: var(--sp-5); grid-template-columns: 1fr; }
 @media (min-width: 768px) { .steps { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 1024px) { .steps { grid-template-columns: repeat(4, 1fr); } }
-.step { border-top: 2px solid var(--color-accent); padding-top: var(--sp-4); }
+.step {
+  display: flex; flex-direction: column;
+  background: var(--color-bg-light); border: 1px solid var(--color-support-2);
+  border-radius: var(--radius-lg); box-shadow: var(--shadow-sm);
+  padding: var(--sp-3) var(--sp-3) var(--sp-5);
+  transition: transform var(--dur-base) var(--ease-out), box-shadow var(--dur-base) var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) { .step:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); } }
+.step-mock { width: 100%; height: auto; aspect-ratio: 280 / 180; border-radius: var(--radius-md); border: 1px solid var(--color-line-dark); margin-bottom: var(--sp-4); }
+.step > .num, .step > h3, .step > p { margin-inline: var(--sp-3); }
 .step .num { font-family: var(--font-mono);
-  font-weight: var(--weight-mono); color: var(--color-text-muted); font-size: 0.8125rem; }
-.step h3 { font-size: var(--fs-body); margin-block: var(--sp-2) var(--sp-2); }
-.step p { font-size: var(--fs-small); color: var(--color-text-muted); margin: 0; }
+  font-weight: var(--weight-mono); color: var(--accent-ink); font-size: 0.8125rem; }
+.step h3 { font-size: var(--fs-h4); margin-block: var(--sp-2) var(--sp-2); }
+.step p { font-size: var(--fs-small); color: var(--color-text-muted); margin-bottom: 0; }
 
 /* --- Diferenciais --- */
 .diff-list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--sp-5); grid-template-columns: 1fr; }
