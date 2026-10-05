@@ -9,7 +9,11 @@
   if (!el || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
   const hasWebGL2 = (() => {
-    try { return !!document.createElement("canvas").getContext("webgl2"); } catch { return false; }
+    try {
+      const gl = document.createElement("canvas").getContext("webgl2");
+      gl && gl.getExtension("WEBGL_lose_context")?.loseContext();   // nao deixa o contexto de teste preso
+      return !!gl;
+    } catch { return false; }
   })();
   if (!hasWebGL2) return;
 
