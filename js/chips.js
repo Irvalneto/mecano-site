@@ -34,5 +34,10 @@ document.querySelectorAll("[data-tabs]").forEach((root) => {
     });
   });
   addEventListener("hashchange", () => fromHash(true));
-  if (!fromHash(true)) select(0);
+  if (!fromHash(false)) select(0);
+  else {
+    // carga a frio com #hash: o navegador rola por conta propria apos o load; reposiciona abaixo do header
+    const go = () => setTimeout(() => root.scrollIntoView({ block: "start" }), 60);
+    if (document.readyState === "complete") go(); else addEventListener("load", go, { once: true });
+  }
 });
