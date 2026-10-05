@@ -249,11 +249,12 @@ section { padding-block: var(--sp-8); }
 /* Interacao (js/porca.js, so mouse): brilho de papel que segue o cursor,
    recortado na forma da porca. Entra rapido (ease-out), sai suave. */
 @media (hover: hover) and (pointer: fine) {
-  .hero-nut { will-change: transform; }
+  .hero-nut { will-change: transform; transform-style: preserve-3d; }
+  .hero-nut-layer { pointer-events: none; }
+  .hero-nut-sheen { transform: translateZ(1px); }
   .hero-nut-sheen {
     position: absolute; inset: 0; pointer-events: none; opacity: 0;
-    background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgb(255 253 248 / 0.95), rgb(255 253 248 / 0.35) 28%, transparent 55%);
-    mix-blend-mode: screen;
+    background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgb(255 253 248 / 0.95), rgb(255 253 248 / 0.4) 30%, transparent 56%);
     -webkit-mask: url("../assets/marca/porca-mascara.svg") center / 100% 100% no-repeat;
             mask: url("../assets/marca/porca-mascara.svg") center / 100% 100% no-repeat;
     transition: opacity var(--dur-fast) var(--ease-out);
