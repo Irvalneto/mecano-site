@@ -5,6 +5,7 @@ document.querySelectorAll("[data-tabs]").forEach((root) => {
   const panels = tabs.map((t) => document.getElementById(t.getAttribute("aria-controls")));
   if (!tabs.length || panels.some((p) => !p)) return;
   root.classList.add("is-tabs");
+  panels.forEach((p) => p.tabIndex = 0); // painel entra na ordem de Tab (padrao WAI-ARIA)
 
   const select = (i, focus, user) => {
     tabs.forEach((t, j) => {
@@ -13,6 +14,7 @@ document.querySelectorAll("[data-tabs]").forEach((root) => {
       panels[j].hidden = i !== j;
     });
     if (focus) tabs[i].focus();
+    tabs[i].scrollIntoView({ block: "nearest", inline: "nearest" }); // chip selecionado visivel na faixa rolavel
     if (user) history.replaceState(null, "", "#" + panels[i].id);
   };
   const fromHash = (scroll) => {
@@ -27,6 +29,7 @@ document.querySelectorAll("[data-tabs]").forEach((root) => {
     t.addEventListener("click", (e) => { e.preventDefault(); select(i, false, true); });
     t.addEventListener("keydown", (e) => {
       const n = tabs.length;
+      if (e.key === " ") { e.preventDefault(); select(i, true, true); return; } // Espaco ativa (link nao reage a Espaco)
       const to = { ArrowRight: (i + 1) % n, ArrowLeft: (i - 1 + n) % n, Home: 0, End: n - 1 }[e.key];
       if (to === undefined) return;
       e.preventDefault();

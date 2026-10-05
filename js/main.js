@@ -76,10 +76,12 @@ function initReveal() {
         }
       });
     },
-    { threshold: 0.15 }
+    { threshold: 0, rootMargin: "0px 0px -8% 0px" }
   );
 
   items.forEach((el) => observer.observe(el));
+  // rede de seguranca: se algo nunca cruzar o limiar (ou o observer falhar), nada fica escondido
+  setTimeout(() => items.forEach((el) => el.classList.add("is-visible")), 4000);
 }
 
 /* --- Folder cards (home): entrada com stagger via anime.js.

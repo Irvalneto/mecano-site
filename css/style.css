@@ -574,3 +574,21 @@ h1 em, h2 em { font-style: italic; color: var(--accent-ink); padding-right: 0.06
 .form-status a { font-weight: 600; }
 
 .form-grid h3 { font-size: var(--fs-h4); }
+
+/* ============================================================
+   V6: hover, entrada do FAQ e reduced-motion (sem animacao nem transicao)
+   ============================================================ */
+@media (hover: hover) and (pointer: fine) {
+  .svc-card, .step { transition: border-color var(--dur-base) var(--ease-out), box-shadow var(--dur-base) var(--ease-out); }
+  .svc-card:hover, .step:hover { border-color: var(--color-primary); }
+  .faq summary:hover { color: var(--accent-ink); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .faq details[open] p { animation: faq-in var(--dur-base) var(--ease-out); }
+}
+@keyframes faq-in { from { opacity: 0; transform: translateY(-4px); } }
+@media (prefers-reduced-motion: reduce) {
+  .chip, .svc-card, .step, .faq summary::after { transition: none; }
+  .chip:active, .btn:active { transform: none; }
+  .svc.is-tabs .svc-card, .faq details[open] p { animation: none; }
+}
