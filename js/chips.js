@@ -14,7 +14,7 @@ document.querySelectorAll("[data-tabs]").forEach((root) => {
       panels[j].hidden = i !== j;
     });
     if (focus) tabs[i].focus();
-    tabs[i].scrollIntoView({ block: "nearest", inline: "nearest" }); // chip selecionado visivel na faixa rolavel
+    if (focus || user) tabs[i].scrollIntoView({ block: "nearest", inline: "nearest" }); // chip selecionado visivel na faixa rolavel
     if (user) history.replaceState(null, "", "#" + panels[i].id);
   };
   const fromHash = (scroll) => {
