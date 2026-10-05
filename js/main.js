@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initHeroMeta();
   initWhatsappFloat();
   initAnalytics();
+  fixHashLinksUnderBase();
 });
 
 /* --- Menu mobile --- */
