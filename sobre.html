@@ -22,7 +22,8 @@
   <link rel="apple-touch-icon" href="apple-touch-icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..800&family=JetBrains+Mono:wght@400;500&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..800&family=JetBrains+Mono:wght@400;500&display=swap" /></noscript>
   <link rel="stylesheet" href="css/tokens.css" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
@@ -81,28 +82,28 @@
           <li class="diff-item" data-reveal>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
             <div>
-              <h4>Escopo antes de tela</h4>
+              <h3>Escopo antes de tela</h3>
               <p>Não desenhamos nada até entender o que precisa ser verdade no fim do projeto para ele ter valido a pena.</p>
             </div>
           </li>
           <li class="diff-item" data-reveal>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>
             <div>
-              <h4>Só o que o projeto precisa</h4>
+              <h3>Só o que o projeto precisa</h3>
               <p>O que é simples fica simples. Sem peça a mais para você pagar e manter.</p>
             </div>
           </li>
           <li class="diff-item" data-reveal>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v18M3 12h18"/></svg>
             <div>
-              <h4>Um ponto de contato direto</h4>
+              <h3>Um ponto de contato direto</h3>
               <p>Você conversa com quem está construindo, não com um intermediário que precisa perguntar para alguém.</p>
             </div>
           </li>
           <li class="diff-item" data-reveal>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>
             <div>
-              <h4>Entregamos funcionando</h4>
+              <h3>Entregamos funcionando</h3>
               <p>O que combinamos está no ar e funcionando desde o primeiro dia, com 30 dias de ajustes depois.</p>
             </div>
           </li>
@@ -119,22 +120,22 @@
         <div class="steps">
           <div class="step" data-reveal>
             <span class="num">01 / 04</span>
-            <h4>Conversa</h4>
+            <h3>Conversa</h3>
             <p>Entramos em contato e entendemos o que você quer.</p>
           </div>
           <div class="step" data-reveal>
             <span class="num">02 / 04</span>
-            <h4>Orçamento</h4>
+            <h3>Orçamento</h3>
             <p>Escopo, prazo e valor por escrito, sem custo e sem compromisso.</p>
           </div>
           <div class="step" data-reveal>
             <span class="num">03 / 04</span>
-            <h4>Montagem</h4>
+            <h3>Montagem</h3>
             <p>Só começa se você aceitar o orçamento.</p>
           </div>
           <div class="step" data-reveal>
             <span class="num">04 / 04</span>
-            <h4>Entrega</h4>
+            <h3>Entrega</h3>
             <p>O projeto vai ao ar funcionando, com 30 dias de ajustes.</p>
           </div>
         </div>
@@ -160,7 +161,7 @@
           </div>
         </div>
         <div class="footer-col">
-          <h4>Navegação</h4>
+          <h3>Navegação</h3>
           <ul>
             <li><a href="index.html">Home</a></li>
             <li><a href="sobre.html">Sobre</a></li>
@@ -169,7 +170,7 @@
           </ul>
         </div>
         <div class="footer-col">
-          <h4>Serviços</h4>
+          <h3>Serviços</h3>
           <ul>
                         <li><a href="servicos.html#sites">Sites</a></li>
             <li><a href="servicos.html#aplicativos">Aplicativos</a></li>
@@ -180,7 +181,7 @@
           </ul>
         </div>
         <div class="footer-col">
-          <h4>Contato</h4>
+          <h3>Contato</h3>
           <ul>
             <li><a href="tel:+5591993066577">(91) 99306-6577</a></li>
             <li><a href="https://wa.me/5591993066577?text=Ola!%20Vim%20pelo%20site%20da%20Mecano%20e%20quero%20conversar%20sobre%20um%20projeto." rel="noopener">WhatsApp</a></li>
