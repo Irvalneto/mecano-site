@@ -23,7 +23,7 @@ document.querySelectorAll("[data-tabs]").forEach((root) => {
   };
 
   tabs.forEach((t, i) => {
-    t.addEventListener("click", (e) => { e.preventDefault(); select(i); });
+    t.addEventListener("click", (e) => { e.preventDefault(); select(i); history.replaceState(null, "", "#" + panels[i].id); });
     t.addEventListener("keydown", (e) => {
       const n = tabs.length;
       const to = { ArrowRight: (i + 1) % n, ArrowLeft: (i - 1 + n) % n, Home: 0, End: n - 1 }[e.key];

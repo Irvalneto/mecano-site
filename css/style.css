@@ -288,7 +288,12 @@ h1 em, h2 em { font-style: italic; color: var(--accent-ink); padding-right: 0.06
   .hero .container:has(> .hero-nut) { display: grid; grid-template-columns: minmax(0, 1fr) 21rem; column-gap: var(--sp-8); }
   .hero .container:has(> .hero-nut) > * { grid-column: 1; }
   .hero .container:has(> .hero-nut) > .hero-nut { grid-column: 2; grid-row: 1 / span 4; width: 100%; margin: 0; align-self: center; }
-  .hero .container:has(> .hero-nut) > /* V4: faixa de metodo (so fatos confirmados) */
+  .hero .container:has(> .hero-nut) > .method { grid-column: 1 / -1; }
+}
+
+.hero-actions { display: flex; flex-wrap: wrap; gap: var(--sp-4); margin-top: var(--sp-6); }
+
+/* V4: faixa de metodo (so fatos confirmados) */
 .method {
   list-style: none; padding: 0; margin: var(--sp-8) 0 0;
   display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-5) var(--sp-5);
@@ -395,7 +400,7 @@ h1 em, h2 em { font-style: italic; color: var(--accent-ink); padding-right: 0.06
 .footer-top p { color: var(--color-text-inverse-muted); font-size: var(--fs-small); max-width: 36ch; margin: 0; }
 .footer-grid { display: grid; gap: var(--sp-6) var(--sp-5); grid-template-columns: repeat(2, minmax(0, 1fr)); margin-bottom: var(--sp-7); }
 @media (min-width: 768px) { .footer-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-.footer-col h3 { font-family: var(--font-mono);
+.footer-col h2 { font-family: var(--font-mono);
   font-weight: var(--weight-mono); text-transform: uppercase; letter-spacing: 0.06em; font-size: 0.8125rem; color: var(--color-text-inverse-muted); margin-bottom: var(--sp-4); }
 .footer-col ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--sp-3); font-size: var(--fs-small); overflow-wrap: anywhere; }
 .footer-col a { text-decoration: none; color: var(--color-text-inverse); }
@@ -474,10 +479,12 @@ h1 em, h2 em { font-style: italic; color: var(--accent-ink); padding-right: 0.06
 /* ============================================================
    REVEAL ON SCROLL (progressivo — sem função = removido)
    ============================================================ */
-[data-reveal] {
-  opacity: 0;
-  transform: translateY(12px);
-  transition: opacity var(--dur-enter) var(--ease-out), transform var(--dur-enter) var(--ease-out);
+@media (scripting: enabled) {
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity var(--dur-enter) var(--ease-out), transform var(--dur-enter) var(--ease-out);
+  }
 }
 [data-reveal].is-visible { opacity: 1; transform: translateY(0); }
 @media (prefers-reduced-motion: reduce) {
