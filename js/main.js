@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initHighlightText();
   initHookSidebar();
   initHeroMeta();
+  initWhatsappFloat();
 });
 
 /* --- Menu mobile --- */
@@ -189,8 +190,13 @@ function initHookSidebar() {
 }
 
 /* --- Formulário de contato: validação inline + loading + sucesso/erro --- */
-// Relay do Twenty CRM (twenty/lead-relay.mjs). [INSERIR: URL pública do relay em produção]
+// Relay do Twenty CRM (twenty/lead-relay.mjs). Vazio = formulário desligado: ao enviar,
+// mostra telefone, e-mail e WhatsApp. Para ligar: colocar aqui a URL pública do relay.
 const FORM_ENDPOINT = location.hostname === "localhost" ? "http://localhost:3021" : "";
+const CONTACT_LINKS_HTML =
+  '<a href="tel:+5591993066577">(91) 99306-6577</a>, ' +
+  '<a href="https://wa.me/5591993066577?text=Ola!%20Vim%20pelo%20site%20da%20Mecano%20e%20quero%20conversar%20sobre%20um%20projeto." rel="noopener">WhatsApp</a> ou ' +
+  '<a href="mailto:suporte@mecanodigital.com.br">suporte@mecanodigital.com.br</a>';
 
 function initContactForm() {
   const form = document.querySelector("#contact-form");
@@ -236,11 +242,19 @@ function initContactForm() {
       return;
     }
 
+    // Formulário desligado: sem requisição, mostra os canais diretos (dados preservados).
+    if (!FORM_ENDPOINT) {
+      status.dataset.state = "info";
+      status.innerHTML =
+        "O envio pelo formulário ainda não está ativo. Fale com a gente por " + CONTACT_LINKS_HTML +
+        ". A primeira conversa é sem custo e respondemos em até 1 dia útil.";
+      return;
+    }
+
     submitBtn.disabled = true;
     submitBtn.dataset.loading = "true";
 
     try {
-      if (!FORM_ENDPOINT) throw new Error("endpoint-not-configured");
 
       const res = await fetch(FORM_ENDPOINT, {
         method: "POST",
@@ -254,11 +268,24 @@ function initContactForm() {
       form.reset();
     } catch (err) {
       status.dataset.state = "error";
-      status.textContent =
-        "Não foi possível enviar pelo formulário agora. Escreva direto para [INSERIR: e-mail de contato] com os mesmos detalhes — respondemos em até 1 dia útil.";
+      status.innerHTML =
+        "Não foi possível enviar pelo formulário agora. Fale com a gente por " + CONTACT_LINKS_HTML +
+        " — respondemos em até 1 dia útil.";
     } finally {
       submitBtn.disabled = false;
       delete submitBtn.dataset.loading;
     }
   });
+}
+
+/* --- Botão flutuante de WhatsApp: some enquanto o formulário está na tela
+   (para não cobrir campos nem o botão Enviar; a página já tem o botão inline). */
+function initWhatsappFloat() {
+  const float = document.querySelector(".wa-float");
+  const form = document.querySelector("#contact-form");
+  if (!float || !form || !("IntersectionObserver" in window)) return;
+  new IntersectionObserver(([entry]) => {
+    float.classList.toggle("is-hidden", entry.isIntersecting);
+    float.tabIndex = entry.isIntersecting ? -1 : 0;
+  }).observe(form);
 }
