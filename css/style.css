@@ -246,6 +246,20 @@ section { padding-block: var(--sp-8); }
   margin: var(--sp-6) 0 0 auto;
 }
 .hero-nut img, .hero-nut canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+/* Interacao (js/porca.js, so mouse): brilho de papel que segue o cursor,
+   recortado na forma da porca. Entra rapido (ease-out), sai suave. */
+@media (hover: hover) and (pointer: fine) {
+  .hero-nut { will-change: transform; }
+  .hero-nut-sheen {
+    position: absolute; inset: 0; pointer-events: none; opacity: 0;
+    background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgb(255 253 248 / 0.6), transparent 46%);
+    mix-blend-mode: soft-light;
+    -webkit-mask: url("../assets/marca/porca-mascara.svg") center / 100% 100% no-repeat;
+            mask: url("../assets/marca/porca-mascara.svg") center / 100% 100% no-repeat;
+    transition: opacity var(--dur-fast) var(--ease-out);
+  }
+  .hero-nut:hover .hero-nut-sheen { opacity: 1; }
+}
 @media (min-width: 1024px) {
   .hero .container:has(> .hero-nut) { display: grid; grid-template-columns: minmax(0, 1fr) 21rem; column-gap: var(--sp-8); }
   .hero .container:has(> .hero-nut) > * { grid-column: 1; }
