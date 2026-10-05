@@ -6,13 +6,14 @@ document.querySelectorAll("[data-tabs]").forEach((root) => {
   if (!tabs.length || panels.some((p) => !p)) return;
   root.classList.add("is-tabs");
 
-  const select = (i, focus) => {
+  const select = (i, focus, user) => {
     tabs.forEach((t, j) => {
       t.setAttribute("aria-selected", String(i === j));
       t.tabIndex = i === j ? 0 : -1;
       panels[j].hidden = i !== j;
     });
     if (focus) tabs[i].focus();
+    if (user) history.replaceState(null, "", "#" + panels[i].id);
   };
   const fromHash = (scroll) => {
     const i = panels.findIndex((p) => "#" + p.id === location.hash);
@@ -23,15 +24,15 @@ document.querySelectorAll("[data-tabs]").forEach((root) => {
   };
 
   tabs.forEach((t, i) => {
-    t.addEventListener("click", (e) => { e.preventDefault(); select(i); history.replaceState(null, "", "#" + panels[i].id); });
+    t.addEventListener("click", (e) => { e.preventDefault(); select(i, false, true); });
     t.addEventListener("keydown", (e) => {
       const n = tabs.length;
       const to = { ArrowRight: (i + 1) % n, ArrowLeft: (i - 1 + n) % n, Home: 0, End: n - 1 }[e.key];
       if (to === undefined) return;
       e.preventDefault();
-      select(to, true);
+      select(to, true, true);
     });
   });
   addEventListener("hashchange", () => fromHash(true));
-  if (!fromHash(false)) select(0);
+  if (!fromHash(true)) select(0);
 });

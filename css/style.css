@@ -311,6 +311,7 @@ h1 em, h2 em { font-style: italic; color: var(--accent-ink); padding-right: 0.06
 /* --- Servicos (V2): chips + cartao com maquete ---
    Chips = pilulas (unica forma arredondada do site, e so no seletor). Sem JS (chips.js)
    todos os cartoes aparecem empilhados e os chips sao ancoras. */
+.svc { scroll-margin-top: 5.5rem; }
 .svc-chips {
   display: flex; gap: var(--sp-2);
   overflow-x: auto; scrollbar-width: none; overscroll-behavior-x: contain;
