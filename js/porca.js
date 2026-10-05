@@ -12,17 +12,24 @@
   if (!face || !matchMedia("(hover: hover) and (pointer: fine)").matches ||
       matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-  const LAYERS = 10, STEP = 5;          // 10 x 5 px = ~50 px de profundidade
+  const LAYERS = 30, STEP = 1.7;        // 30 x 1,7 px = ~51 px de profundidade
   const MAX_X = 24, MAX_Y = 42;          // graus: vira inteira p/ os dois lados
   const REST_X = 10, REST_Y = -16;
   const TAU = 150;                       // ms: constante de tempo (maior = mais suave)
+
+  // Palco: o que gira. O .hero-nut fica parado e recebe o mouse; se ele mesmo
+  // girasse, a borda "fugiria" do cursor e a porca voltaria ao repouso (tremida).
+  const stage = document.createElement("span");
+  stage.className = "hero-nut-stage";
+  while (el.firstChild) stage.appendChild(el.firstChild);
+  el.appendChild(stage);
 
   // Brilho: mascara estatica (CSS) > luz que se desloca por transform.
   const sheen = document.createElement("span");
   sheen.className = "hero-nut-sheen";
   const glow = document.createElement("span");
   sheen.appendChild(glow);
-  el.appendChild(sheen);
+  stage.appendChild(sheen);
 
   const build = () => {
     const w = 300, h = Math.round(300 * face.naturalHeight / face.naturalWidth);
@@ -35,7 +42,7 @@
       g.fillStyle = `rgba(0,0,0,${(1 - (0.3 + 0.5 * (1 - i / LAYERS))).toFixed(2)})`;
       g.fillRect(0, 0, w, h);
       c.style.transform = `translateZ(${-i * STEP}px)`;
-      el.insertBefore(c, face);
+      stage.insertBefore(c, face);
     }
   };
   (face.decode ? face.decode() : Promise.resolve()).then(build).catch(() => {});
@@ -48,7 +55,7 @@
     const k = 1 - Math.exp(-Math.min(now - (last || now - 16), 50) / TAU);
     last = now;
     x += (tx - x) * k; y += (ty - y) * k; gx += (gtx - gx) * k; gy += (gty - gy) * k;
-    el.style.transform = `perspective(750px) rotateX(${x.toFixed(2)}deg) rotateY(${y.toFixed(2)}deg)`;
+    stage.style.transform = `perspective(750px) rotateX(${x.toFixed(2)}deg) rotateY(${y.toFixed(2)}deg)`;
     const r = el.offsetWidth;                         // brilho: ~85% da largura
     const s = r * 0.85;
     glow.style.width = glow.style.height = `${s}px`;
