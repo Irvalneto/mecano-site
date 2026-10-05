@@ -356,33 +356,53 @@ h1 em, h2 em { font-style: italic; color: var(--accent-ink); padding-right: 0.06
   color: var(--color-text-inverse);
 }
 
-/* --- Cards de serviço (assimétrico: 1 destaque + lista) --- */
-.services-layout { display: grid; gap: var(--sp-6); grid-template-columns: 1fr; }
-@media (min-width: 1024px) { .services-layout { grid-template-columns: 1.3fr 1fr; } }
-
-.service-featured {
-  background: var(--color-surface);
-  border: 1px solid var(--color-support-2);
-  border-radius: var(--radius-lg);
-  padding: var(--sp-7);
+/* --- Servicos (V2): chips + cartao com maquete ---
+   Chips = pilulas (unica forma arredondada do site, e so no seletor). Sem JS (chips.js)
+   todos os cartoes aparecem empilhados e os chips sao ancoras. */
+.svc-chips {
+  display: flex; gap: var(--sp-2);
+  overflow-x: auto; scrollbar-width: none; overscroll-behavior-x: contain;
+  padding-bottom: var(--sp-1); margin-bottom: var(--sp-5);
 }
-.service-featured .tag { margin-bottom: var(--sp-4); }
-
-.service-list { display: flex; flex-direction: column; gap: var(--sp-4); }
-.service-row {
-  border: 1px solid var(--color-support-2);
-  border-radius: var(--radius-md);
-  padding: var(--sp-5);
-  display: flex;
-  gap: var(--sp-4);
-  align-items: flex-start;
-  transition: border-color var(--dur-fast) var(--ease-out);
+.svc-chips::-webkit-scrollbar { display: none; }
+.chip {
+  flex: none; display: inline-flex; align-items: center; min-height: 44px;
+  padding: 0 var(--sp-4); border-radius: 999px;
+  border: 1px solid var(--color-support-2); background: transparent;
+  color: var(--color-text); font-weight: 600; font-size: var(--fs-small);
+  text-decoration: none; white-space: nowrap;
+  transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
 }
-.service-row:hover { border-color: var(--color-accent); }
-.service-row .num { font-family: var(--font-mono);
-  font-weight: var(--weight-mono); color: var(--accent-ink); font-size: var(--fs-small); }
-.service-row h4 { margin-bottom: var(--sp-1); font-size: var(--fs-body); }
-.service-row p { margin: 0; font-size: var(--fs-small); color: var(--color-text-muted); }
+.chip:active { transform: scale(0.97); }
+@media (hover: hover) and (pointer: fine) { .chip:hover { border-color: var(--color-primary); } }
+.chip[aria-selected="true"] { background: var(--color-primary); border-color: var(--color-primary); color: var(--color-text-inverse); }
+@media (min-width: 768px) { .svc-chips { flex-wrap: wrap; overflow: visible; } }
+
+.svc-card {
+  display: grid; grid-template-columns: 1fr; gap: var(--sp-6); align-items: center;
+  background: var(--color-surface); border: 1px solid var(--color-support-2);
+  border-radius: var(--radius-lg); box-shadow: var(--shadow-md);
+  padding: var(--sp-5); margin-bottom: var(--sp-5);
+}
+.svc.is-tabs .svc-card { margin-bottom: 0; }
+.svc-card[hidden] { display: none; }
+.svc-card h3 { font-size: var(--fs-h3); }
+.svc-card h4 { font-size: var(--fs-small); margin: var(--sp-5) 0 var(--sp-2); }
+.svc-card p { color: var(--color-text-muted); }
+.svc-card p strong { color: var(--color-text); }
+.svc-card .lede { color: var(--color-text); }
+.svc-list { margin: 0 0 var(--sp-4); padding-left: 1.1rem; color: var(--color-text-muted); }
+.svc-list li { margin-bottom: var(--sp-2); }
+.svc-text .btn { margin-top: var(--sp-2); }
+.svc-mock { border-radius: var(--radius-md); overflow: hidden; background: var(--color-panel-dark); border: 1px solid var(--color-line-dark); }
+.svc-mock img { width: 100%; height: auto; aspect-ratio: 320 / 200; }
+@media (min-width: 768px) {
+  .svc-card { grid-template-columns: 1.1fr 1fr; padding: var(--sp-7); gap: var(--sp-7); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .svc.is-tabs .svc-card { animation: svc-in var(--dur-base) var(--ease-out); }
+}
+@keyframes svc-in { from { opacity: 0; transform: translateY(8px); } }
 
 /* --- Processo (steps) --- */
 .steps { display: grid; gap: var(--sp-6); grid-template-columns: 1fr; }
@@ -523,52 +543,6 @@ h1 em, h2 em { font-style: italic; color: var(--accent-ink); padding-right: 0.06
   font-weight: var(--weight-mono); color: var(--accent-ink); font-size: var(--fs-h3); }
 
 /* ============================================================
-   FOLDER CARD (inspirado em rareui.com/components/folder-component)
-   Card com aba de pasta; levanta no hover/focus. Conteúdo sempre
-   visível — a animação é feedback, não um portão de acesso.
-   ============================================================ */
-.folder-card {
-  position: relative;
-  margin-top: 16px;
-  opacity: 0;
-  transform: translateY(24px) rotate(-2deg);
-}
-.folder-card.is-visible { opacity: 1; transform: none; }
-@media (prefers-reduced-motion: reduce) {
-  .folder-card { opacity: 1; transform: none; }
-}
-.folder-tab {
-  position: absolute;
-  top: -16px;
-  left: var(--sp-4);
-  background: var(--color-primary);
-  color: var(--color-bg-light);
-  font-family: var(--font-mono);
-  font-weight: var(--weight-mono);
-  font-size: 0.75rem;
-  padding: var(--sp-1) var(--sp-3);
-  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
-  transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
-}
-.folder-body {
-  border: 1px solid var(--color-support-2);
-  border-radius: 0 var(--radius-md) var(--radius-md) var(--radius-md);
-  background: var(--color-surface);
-  padding: var(--sp-5);
-  transition: transform var(--dur-base) var(--ease-out), box-shadow var(--dur-base) var(--ease-out), border-color var(--dur-base) var(--ease-out);
-}
-.folder-card:hover .folder-body,
-.folder-card:focus-within .folder-body {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-md);
-  border-color: var(--color-accent);
-}
-.folder-card:hover .folder-tab,
-.folder-card:focus-within .folder-tab { background: var(--color-accent); color: var(--color-primary); }
-.folder-body h4 { margin-bottom: var(--sp-1); font-size: var(--fs-body); }
-.folder-body p { margin: 0; font-size: var(--fs-small); color: var(--color-text-muted); }
-
-/* ============================================================
    HIGHLIGHTED TEXT (inspirado em spell.sh — "Highlighted Text")
    Barra sólida desliza atrás da frase. Visível por padrão (sem
    JS/anime.js a frase já aparece com o destaque estático).
@@ -581,92 +555,6 @@ h1 em, h2 em { font-style: italic; color: var(--accent-ink); padding-right: 0.06
   z-index: -1;
   transform-origin: left center;
 }
-
-/* ============================================================
-   HOOK SIDEBAR (inspirado em rareui.com/components/hooksidebar)
-   Nav lateral fixa e colapsável — só em telas grandes, onde sobra
-   respiro fora do container; em telas menores é ruído, não ajuda.
-   ============================================================ */
-/* Layout de duas colunas (sidebar + conteúdo) para a página de Serviços.
-   A coluna reserva espaço de verdade no grid — a sidebar nunca sobrepõe
-   o conteúdo, em vez de flutuar por cima com posicionamento fixo. */
-.service-detail-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--sp-8);
-}
-@media (min-width: 1024px) {
-  .service-detail-grid { grid-template-columns: 200px 1fr; gap: var(--sp-9); align-items: start; }
-}
-.service-block-list { display: flex; flex-direction: column; min-width: 0; }
-.service-block + .service-block {
-  margin-top: var(--sp-9);
-  padding-top: var(--sp-9);
-  border-top: 1px solid var(--color-support-2);
-}
-.service-block h3 { margin-top: var(--sp-6); }
-
-.hook-sidebar { display: none; }
-@media (min-width: 1024px) {
-  .hook-sidebar {
-    display: flex;
-    flex-direction: column;
-    gap: var(--sp-2);
-    position: sticky;
-    top: 96px;
-    align-self: start;
-    width: 56px;
-    overflow: hidden;
-    background: var(--color-surface);
-    border: 1px solid var(--color-support-2);
-    border-radius: var(--radius-lg);
-    padding: var(--sp-3);
-    transition: width var(--dur-base) var(--ease-out);
-  }
-  .hook-sidebar.is-expanded { width: 180px; }
-}
-.hook-sidebar-toggle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  flex-shrink: 0;
-  border: none;
-  background: none;
-  border-radius: var(--radius-sm);
-  color: var(--color-text-muted);
-  cursor: pointer;
-}
-.hook-sidebar-toggle:hover { background: var(--color-bg-light); color: var(--color-primary); }
-.hook-sidebar-toggle svg { width: 18px; height: 18px; }
-.hook-sidebar-list { list-style: none; margin: var(--sp-3) 0 0; padding: 0; display: flex; flex-direction: column; gap: var(--sp-1); }
-.hook-sidebar-list a {
-  display: flex;
-  align-items: center;
-  gap: var(--sp-3);
-  height: 40px;
-  padding-inline: var(--sp-2);
-  border-radius: var(--radius-sm);
-  text-decoration: none;
-  color: var(--color-text-muted);
-  white-space: nowrap;
-  font-size: var(--fs-small);
-}
-.hook-sidebar-list a:hover { background: var(--color-bg-light); color: var(--color-primary); }
-.hook-sidebar-list a.is-active { color: var(--color-primary); background: var(--color-bg-light); }
-.hook-sidebar-list .num {
-  font-family: var(--font-mono);
-  font-weight: var(--weight-mono);
-  font-size: 0.75rem;
-  width: 24px;
-  flex-shrink: 0;
-  text-align: center;
-  color: var(--accent-ink);
-}
-.hook-sidebar-list a.is-active .num { font-weight: 700; }
-.hook-sidebar-list .label { opacity: 0; transition: opacity var(--dur-fast) var(--ease-out); }
-.hook-sidebar.is-expanded .hook-sidebar-list .label { opacity: 1; }
 
 /* ============================================================
    UTILITÁRIOS
