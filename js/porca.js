@@ -39,7 +39,8 @@
       const g = c.getContext("2d");
       g.drawImage(face, 0, 0, w, h);
       g.globalCompositeOperation = "source-atop";       // escurece so onde ha metal
-      g.fillStyle = `rgba(0,0,0,${(1 - (0.3 + 0.5 * (1 - i / LAYERS))).toFixed(2)})`;
+      // da face (clara) ate o fundo (#0E0D0B): a lateral esmaece em vez de formar uma faixa cinza na borda
+      g.fillStyle = `rgba(14,13,11,${(0.35 + 0.65 * Math.pow(i / LAYERS, 0.6)).toFixed(2)})`;
       g.fillRect(0, 0, w, h);
       c.style.transform = `translateZ(${-i * STEP}px)`;
       stage.insertBefore(c, face);

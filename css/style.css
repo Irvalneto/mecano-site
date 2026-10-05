@@ -262,7 +262,6 @@ h1 em, h2 em { font-style: italic; color: var(--accent-ink); padding-right: 0.06
 .hero-nut-shader { position: absolute; inset: 0; opacity: 0; pointer-events: none; transition: opacity 400ms var(--ease-out); }
 .hero-nut-shader canvas { display: block; width: 100%; height: 100%; }
 .hero-nut.is-live .hero-nut-shader { opacity: 1; }
-.hero-nut.is-live .hero-nut-layer { visibility: hidden; }  /* camadas de espessura (N4) aparecem como faixa cinza na borda com o shader */
 .hero-nut.is-live img { opacity: 0; transition: opacity 400ms var(--ease-out); }
 
 /* Interacao (js/porca.js, so mouse). Porca 3D: camadas de espessura (canvas
