@@ -252,8 +252,8 @@ section { padding-block: var(--sp-8); }
   .hero-nut { will-change: transform; }
   .hero-nut-sheen {
     position: absolute; inset: 0; pointer-events: none; opacity: 0;
-    background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgb(255 253 248 / 0.6), transparent 46%);
-    mix-blend-mode: soft-light;
+    background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgb(255 253 248 / 0.95), rgb(255 253 248 / 0.35) 28%, transparent 55%);
+    mix-blend-mode: screen;
     -webkit-mask: url("../assets/marca/porca-mascara.svg") center / 100% 100% no-repeat;
             mask: url("../assets/marca/porca-mascara.svg") center / 100% 100% no-repeat;
     transition: opacity var(--dur-fast) var(--ease-out);
