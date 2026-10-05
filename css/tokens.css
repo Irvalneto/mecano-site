@@ -16,6 +16,27 @@
    - Não distorcer, girar, recolorir, sombrear o logo.
    ============================================================ */
 
+/* ============================================================
+   LIQUID METAL (N4/F15) — parametros de cor para o shader
+   Porca cromada no hero da home. NAO e o logo (o manual proibe
+   brilho/troca de cor no logo). Sem solda no metal.
+   Mascara: assets/marca/porca-mascara.svg (hexagono com furo;
+   preto = metal). Fallback: assets/marca/porca-cromada.webp
+   (600x693; mesma caixa do canvas, .hero-nut, proporcao 600/693).
+   LiquidMetal (@paper-design/shaders):
+     colorBack  #0E0D0B   (grafite; o hero e grafite)
+     colorTint  #F4F2EC   (papel; luz do metal)
+     Tons do metal: grafite #0E0D0B -> #24221E -> #746F65 ->
+       aco #A29C90 -> papel #F4F2EC (alto brilho). Faixas
+       alternadas escuro/claro como o fallback.
+     Realce especular: #FFFDF8 (so ponto pequeno, nunca area).
+   Sugestao inicial (ajustar a olho contra o fallback):
+     speed 0.25-0.4; repetition 3-4; softness 0.4; shiftRed/Blue 0
+     (sem aberracao colorida: nada de laranja/azul no metal);
+     distortion ~0.1; contour ~0.4; scale 1; fit "contain".
+   Fundo do canvas transparente (o hero ja e grafite).
+   ============================================================ */
+
 :root {
   /* --- Cor: paleta da marca ------------------------------------ */
   --color-grafite: #0E0D0B;

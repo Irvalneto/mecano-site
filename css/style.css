@@ -235,6 +235,24 @@ section { padding-block: var(--sp-8); }
 .hero { padding-block: var(--sp-9) var(--sp-8); }
 .hero h1 { font-size: var(--fs-h1); }
 @media (min-width: 768px) { .hero h1 { font-size: var(--fs-display); } }
+/* --- Porca cromada (N4) ---------------------------------------
+   Decorativa. 360: abaixo dos CTAs, pequena, nao empurra o CTA da dobra.
+   1024+: coluna direita ao lado do titulo. Proporcao fixa = CLS 0.
+   F15 monta o canvas do shader dentro de .hero-nut (mesma caixa). */
+.hero-nut {
+  position: relative;
+  width: 7.5rem;
+  aspect-ratio: 600 / 693;
+  margin: var(--sp-6) 0 0 auto;
+}
+.hero-nut img, .hero-nut canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+@media (min-width: 1024px) {
+  .hero .container:has(> .hero-nut) { display: grid; grid-template-columns: minmax(0, 1fr) 21rem; column-gap: var(--sp-8); }
+  .hero .container:has(> .hero-nut) > * { grid-column: 1; }
+  .hero .container:has(> .hero-nut) > .hero-nut { grid-column: 2; grid-row: 1 / span 4; width: 100%; margin: 0; align-self: center; }
+  .hero .container:has(> .hero-nut) > .hero-meta { grid-column: 1 / -1; }
+}
+
 .hero-actions { display: flex; flex-wrap: wrap; gap: var(--sp-4); margin-top: var(--sp-6); }
 .hero-meta {
   list-style: none;
