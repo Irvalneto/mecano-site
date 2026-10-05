@@ -14,7 +14,9 @@ document.querySelectorAll("[data-tabs]").forEach((root) => {
       panels[j].hidden = i !== j;
     });
     if (focus) tabs[i].focus();
-    if (focus || user) tabs[i].scrollIntoView({ block: "nearest", inline: "nearest" }); // chip selecionado visivel na faixa rolavel
+    // chip selecionado centralizado na faixa rolavel (so scrollLeft da faixa; a pagina nao rola)
+    const strip = tabs[i].parentElement, c = tabs[i].getBoundingClientRect(), r = strip.getBoundingClientRect();
+    strip.scrollLeft += c.left - r.left - (strip.clientWidth - c.width) / 2;
     if (user) history.replaceState(null, "", "#" + panels[i].id);
   };
   const fromHash = (scroll) => {
