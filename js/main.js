@@ -266,6 +266,7 @@ function initContactForm() {
       });
       if (!res.ok) throw new Error("request-failed");
 
+      track("envio-formulario");
       status.dataset.state = "success";
       status.textContent = "Mensagem enviada. Retornamos em até 1 dia útil.";
       form.reset();
@@ -323,4 +324,13 @@ function track(name) {
   try {
     window.goatcounter?.count?.({ path: name, title: name, event: true });
   } catch (_) {}
+}
+
+/* A 404 usa <base> no domínio de produção (para achar css/js em URL aninhada);
+   links só com #âncora (skip-link) apontariam para a home, então ficam na página atual. */
+function fixHashLinksUnderBase() {
+  if (document.baseURI.split("#")[0] === location.href.split("#")[0]) return;
+  document.querySelectorAll('a[href^="#"]').forEach((a) => {
+    a.href = location.pathname + location.search + a.getAttribute("href");
+  });
 }
