@@ -22,11 +22,13 @@ function initMobileMenu() {
 
   const close = () => {
     toggle.setAttribute("aria-expanded", "false");
+    toggle.setAttribute("aria-label", "Abrir menu");
     nav.classList.remove("is-open");
     document.body.style.overflow = "";
   };
   const open = () => {
     toggle.setAttribute("aria-expanded", "true");
+    toggle.setAttribute("aria-label", "Fechar menu");
     nav.classList.add("is-open");
     document.body.style.overflow = "hidden";
   };
