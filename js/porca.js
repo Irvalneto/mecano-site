@@ -1,44 +1,68 @@
-/* N4: porca do hero reage ao mouse (inclinacao com mola + brilho que segue o cursor).
+/* N4: porca do hero em 3D que reage ao mouse.
+   - Espessura: camadas escurecidas da face empilhadas em Z (bitmaps pre-escurecidos
+     uma vez; nada de filtro por frame).
+   - Movimento: so transform, suavizado por tempo (igual em 60 e 144 Hz).
+   - Brilho: gradiente que se MOVE por transform dentro de uma mascara estatica
+     (nada e repintado a cada frame).
    Decorativo: so com mouse (hover/fine) e sem prefers-reduced-motion.
-   Age no wrapper .hero-nut, entao vale para a imagem parada e para o canvas do F15. */
+   Age no wrapper .hero-nut, vale para a imagem parada e para o canvas do F15. */
 (() => {
   const el = document.querySelector(".hero-nut");
-  if (!el || !matchMedia("(hover: hover) and (pointer: fine)").matches ||
+  const face = el && el.querySelector("img");
+  if (!face || !matchMedia("(hover: hover) and (pointer: fine)").matches ||
       matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
+  const LAYERS = 10, STEP = 5;          // 10 x 5 px = ~50 px de profundidade
+  const MAX = 24, REST_X = 10, REST_Y = -16;
+  const TAU = 85;                        // ms: constante de tempo da mola
+
+  // Brilho: mascara estatica (CSS) > luz que se desloca por transform.
   const sheen = document.createElement("span");
   sheen.className = "hero-nut-sheen";
+  const glow = document.createElement("span");
+  sheen.appendChild(glow);
   el.appendChild(sheen);
 
-  // Espessura: copias escurecidas da face empilhadas em Z. Inclinada, a porca
-  // mostra as laterais (volume real), nao so um desenho achatado.
-  const face = el.querySelector("img");
-  const LAYERS = 22, STEP = 2.2;     // 22 x 2,2 px = ~48 px de profundidade
-  if (face) for (let i = LAYERS; i >= 1; i--) {
-    const l = face.cloneNode();
-    l.className = "hero-nut-layer";
-    l.style.transform = `translateZ(${-i * STEP}px)`;
-    l.style.filter = `brightness(${(0.30 + 0.5 * (1 - i / LAYERS)).toFixed(2)})`;
-    el.insertBefore(l, face);
-  }
+  const build = () => {
+    const w = 300, h = Math.round(300 * face.naturalHeight / face.naturalWidth);
+    for (let i = LAYERS; i >= 1; i--) {
+      const c = document.createElement("canvas");
+      c.width = w; c.height = h; c.className = "hero-nut-layer"; c.setAttribute("aria-hidden", "true");
+      const g = c.getContext("2d");
+      g.drawImage(face, 0, 0, w, h);
+      g.globalCompositeOperation = "source-atop";       // escurece so onde ha metal
+      g.fillStyle = `rgba(0,0,0,${(1 - (0.3 + 0.5 * (1 - i / LAYERS))).toFixed(2)})`;
+      g.fillRect(0, 0, w, h);
+      c.style.transform = `translateZ(${-i * STEP}px)`;
+      el.insertBefore(c, face);
+    }
+  };
+  (face.decode ? face.decode() : Promise.resolve()).then(build).catch(() => {});
 
-  const MAX = 24;                    // graus de inclinacao maxima
-  const REST_X = 10, REST_Y = -16;   // pose de repouso (ja mostra volume)
-  let tx = REST_X, ty = REST_Y, x = REST_X, y = REST_Y, raf = 0;   // alvo e atual
+  let tx = REST_X, ty = REST_Y, x = tx, y = ty;     // rotacao: alvo e atual
+  let gx = 0.5, gy = 0.5, gtx = 0.5, gty = 0.5;     // posicao do brilho (0..1)
+  let last = 0, raf = 0;
 
-  const tick = () => {
-    x += (tx - x) * 0.14; y += (ty - y) * 0.14;   // mola amortecida
+  const tick = (now) => {
+    const k = 1 - Math.exp(-Math.min(now - (last || now - 16), 50) / TAU);
+    last = now;
+    x += (tx - x) * k; y += (ty - y) * k; gx += (gtx - gx) * k; gy += (gty - gy) * k;
     el.style.transform = `perspective(750px) rotateX(${x.toFixed(2)}deg) rotateY(${y.toFixed(2)}deg)`;
-    raf = Math.abs(tx - x) + Math.abs(ty - y) > 0.02 ? requestAnimationFrame(tick) : 0;
+    const r = el.offsetWidth;                         // brilho: ~85% da largura
+    const s = r * 0.85;
+    glow.style.width = glow.style.height = `${s}px`;
+    glow.style.transform = `translate3d(${(gx * r - s / 2).toFixed(1)}px, ${(gy * el.offsetHeight - s / 2).toFixed(1)}px, 0)`;
+    const moving = Math.abs(tx - x) + Math.abs(ty - y) + Math.abs(gtx - gx) + Math.abs(gty - gy) > 0.002;
+    raf = moving ? requestAnimationFrame(tick) : ((last = 0), 0);
   };
   const go = () => { if (!raf) raf = requestAnimationFrame(tick); };
 
   el.addEventListener("pointermove", (e) => {
     const r = el.getBoundingClientRect();
-    const px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
+    const px = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width));
+    const py = Math.min(1, Math.max(0, (e.clientY - r.top) / r.height));
     ty = REST_Y + (px - 0.5) * 2 * MAX; tx = REST_X - (py - 0.5) * 2 * MAX;
-    sheen.style.setProperty("--mx", `${px * 100}%`);
-    sheen.style.setProperty("--my", `${py * 100}%`);
+    gtx = px; gty = py;
     go();
   });
   el.addEventListener("pointerleave", () => { tx = REST_X; ty = REST_Y; go(); });

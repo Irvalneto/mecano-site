@@ -246,18 +246,22 @@ section { padding-block: var(--sp-8); }
   margin: var(--sp-6) 0 0 auto;
 }
 .hero-nut img, .hero-nut canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
-/* Interacao (js/porca.js, so mouse): brilho de papel que segue o cursor,
-   recortado na forma da porca. Entra rapido (ease-out), sai suave. */
+/* Interacao (js/porca.js, so mouse). Porca 3D: camadas de espessura (canvas
+   pre-escurecidos) + brilho = gradiente que se move por transform dentro de
+   uma mascara estatica no formato da porca. So transform muda por frame. */
 @media (hover: hover) and (pointer: fine) {
   .hero-nut { will-change: transform; transform-style: preserve-3d; }
-  .hero-nut-layer { pointer-events: none; }
-  .hero-nut-sheen { transform: translateZ(1px); }
+  .hero-nut-layer { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; backface-visibility: hidden; }
   .hero-nut-sheen {
-    position: absolute; inset: 0; pointer-events: none; opacity: 0;
-    background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgb(255 253 248 / 0.95), rgb(255 253 248 / 0.4) 30%, transparent 56%);
+    position: absolute; inset: 0; pointer-events: none; overflow: hidden; opacity: 0;
+    transform: translateZ(1px);
     -webkit-mask: url("../assets/marca/porca-mascara.svg") center / 100% 100% no-repeat;
             mask: url("../assets/marca/porca-mascara.svg") center / 100% 100% no-repeat;
     transition: opacity var(--dur-fast) var(--ease-out);
+  }
+  .hero-nut-sheen > span {
+    position: absolute; left: 0; top: 0; will-change: transform;
+    background: radial-gradient(circle closest-side, rgb(255 253 248 / 0.95), rgb(255 253 248 / 0.4) 40%, transparent 100%);
   }
   .hero-nut:hover .hero-nut-sheen { opacity: 1; }
 }
