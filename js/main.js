@@ -195,9 +195,9 @@ function initHookSidebar() {
 }
 
 /* --- Formulário de contato: validação inline + loading + sucesso/erro --- */
-// Relay do Twenty CRM (twenty/lead-relay.mjs). Vazio = formulário desligado: ao enviar,
-// mostra telefone, e-mail e WhatsApp. Para ligar: colocar aqui a URL pública do relay.
-const FORM_ENDPOINT = location.hostname === "localhost" ? "http://localhost:3021" : "";
+// Relay do Twenty CRM (twenty/lead-relay.mjs, rodando no servidor AWS). Vazio = formulário
+// desligado: ao enviar, mostra telefone, e-mail e WhatsApp.
+const FORM_ENDPOINT = "https://34-235-172-0.sslip.io/lead";
 const CONTACT_LINKS_HTML =
   '<a href="tel:+5591993066577">(91) 99306-6577</a>, ' +
   '<a href="https://wa.me/5591993066577?text=Ola!%20Vim%20pelo%20site%20da%20Mecano%20e%20quero%20conversar%20sobre%20um%20projeto." rel="noopener">WhatsApp</a> ou ' +
