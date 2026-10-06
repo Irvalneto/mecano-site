@@ -11,7 +11,6 @@ document.addEventListener("DOMContentLoaded", () => {
   initHeroMeta();
   initWhatsappFloat();
   initAnalytics();
-  fixHashLinksUnderBase();
 });
 
 /* --- Menu mobile --- */
@@ -329,11 +328,3 @@ function track(name) {
   } catch (_) {}
 }
 
-/* A 404 usa <base> no domínio de produção (para achar css/js em URL aninhada);
-   links só com #âncora (skip-link) apontariam para a home, então ficam na página atual. */
-function fixHashLinksUnderBase() {
-  if (document.baseURI.split("#")[0] === location.href.split("#")[0]) return;
-  document.querySelectorAll('a[href^="#"]').forEach((a) => {
-    a.href = location.pathname + location.search + a.getAttribute("href");
-  });
-}
