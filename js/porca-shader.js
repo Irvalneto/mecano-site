@@ -1,5 +1,5 @@
 /* F15: liquid metal na porca do hero (@paper-design/shaders, versao fixa).
-   Carrega DEPOIS do conteudo (nao bloqueia render). O ShaderMount ja pausa fora
+   Comeca a baixar na hora e monta o WebGL logo apos o 1o desenho (nao bloqueia render). O ShaderMount ja pausa fora
    da tela (IntersectionObserver) e com a aba oculta.
    Sem canvas com prefers-reduced-motion ou sem WebGL2: fica a imagem parada (1o quadro do proprio shader).
    Mascara pre-processada offline (assets/marca/porca-liquid.png, R = gradiente da
@@ -25,13 +25,20 @@
   // Se mudar os uniforms abaixo, renderize o webp de novo com este mesmo FRAME.
   const FRAME = 3500;
 
+  // Rede ja na hora (modulos e mascara; os <link rel="modulepreload"> do head adiantam o mesmo pedido).
+  const assets = Promise.all([
+    import(LIB + "shader-mount.js"), import(LIB + "shader-sizing.js"),
+    import(LIB + "get-shader-color-from-string.js"), import(LIB + "shaders/liquid-metal.js"),
+    new Promise((ok, no) => { const i = new Image(); i.onload = () => ok(i); i.onerror = no; i.src = MASK; }),
+  ]);
+  assets.catch(() => {});   // sem rede/CDN bloqueado: a imagem parada continua (tratado em start)
+  const nextFrame = () => new Promise((ok) => requestAnimationFrame(ok));
+
   const start = async () => {
     try {
-      const [mount, sizing, colors, metal, mask] = await Promise.all([
-        import(LIB + "shader-mount.js"), import(LIB + "shader-sizing.js"),
-        import(LIB + "get-shader-color-from-string.js"), import(LIB + "shaders/liquid-metal.js"),
-        new Promise((ok, no) => { const i = new Image(); i.onload = () => ok(i); i.onerror = no; i.src = MASK; }),
-      ]);
+      const [mount, sizing, colors, metal, mask] = await assets;
+      // So monta o WebGL depois do 1o desenho da pagina (nao entra no LCP); sem espera fixa.
+      await nextFrame(); await nextFrame();
       const { ShaderMount } = mount, { ShaderFitOptions, defaultObjectSizing: d } = sizing;
       const color = colors.getShaderColorFromString, { liquidMetalFragmentShader } = metal;
 
@@ -61,7 +68,6 @@
     } catch { /* sem rede/GL: a imagem parada continua */ }
   };
 
-  // 4 s depois do load: a imagem parada ja esta no hero e a compilacao do shader nao entra no TBT.
-  const idle = () => setTimeout(() => ("requestIdleCallback" in window ? requestIdleCallback(start, { timeout: 2500 }) : start()), 4000);
-  if (document.readyState === "complete") idle(); else addEventListener("load", idle, { once: true });
+  // Comeca assim que a pagina existe: a imagem parada ja e o 1o quadro, entao nao ha salto.
+  start();
 })();
