@@ -56,7 +56,7 @@
 
       new ShaderMount(host, liquidMetalFragmentShader, uniforms, { alpha: true, premultipliedAlpha: true },
                       0.3, FRAME, 2);
-      // 2 quadros para o 1o desenho; so entao troca a imagem parada pelo canvas
+      // 2 quadros para o 1o desenho; so entao mostra o canvas por cima da imagem parada (igual ao 1o quadro)
       requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add("is-live")));
     } catch { /* sem rede/GL: a imagem parada continua */ }
   };

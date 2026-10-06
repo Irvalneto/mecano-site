@@ -266,7 +266,7 @@ h1 em, h2 em { font-style: italic; color: var(--accent-ink); padding-right: 0.06
 }
 .hero-nut img, .hero-nut canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
 /* Shader (js/porca-shader.js): canvas na mesma caixa da imagem parada; entra com
-   fade quando o 1o quadro esta pronto e a imagem some. Sem JS/WebGL nada muda. */
+   fade quando o 1o quadro esta pronto e a imagem parada (1o quadro do shader) fica por baixo. Sem JS/WebGL nada muda. */
 .hero-nut-shader { position: absolute; inset: 0; opacity: 0; pointer-events: none; transition: opacity 400ms var(--ease-out); }
 .hero-nut-shader canvas { display: block; width: 100%; height: 100%; }
 .hero-nut.is-live .hero-nut-shader { opacity: 1; }
