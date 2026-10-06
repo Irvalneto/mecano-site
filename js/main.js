@@ -299,7 +299,7 @@ function initWhatsappFloat() {
 
 /* --- Medição de leads (GoatCounter: grátis, sem cookie, sem banner).
    Código do site vazio = nada carrega e nenhum erro. Para ligar: preencher abaixo. */
-const GOATCOUNTER_CODE = "";
+const GOATCOUNTER_CODE = "mecano";
 
 function initAnalytics() {
   if (!GOATCOUNTER_CODE) return;
