@@ -25,7 +25,7 @@
   // Se mudar os uniforms abaixo, renderize o webp de novo com este mesmo FRAME.
   const FRAME = 3500;
 
-  // Rede ja na hora (modulos e mascara; os <link rel="modulepreload"> do head adiantam o mesmo pedido).
+  // Rede ja na hora (modulos e mascara; o <link rel="preconnect"> do head abre a conexao antes). Sem modulepreload de proposito: encosta o shader na janela do TBT.
   const assets = Promise.all([
     import(LIB + "shader-mount.js"), import(LIB + "shader-sizing.js"),
     import(LIB + "get-shader-color-from-string.js"), import(LIB + "shaders/liquid-metal.js"),
