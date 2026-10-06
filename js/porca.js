@@ -32,15 +32,19 @@
   stage.appendChild(sheen);
 
   const build = () => {
-    const w = 300, h = Math.round(300 * face.naturalHeight / face.naturalWidth);
+    const w = 450, h = Math.round(450 * face.naturalHeight / face.naturalWidth);   // ~nitidez nativa em 1x/2x (300 ficava borrado e gerava halo na lateral)
     for (let i = LAYERS; i >= 1; i--) {
       const c = document.createElement("canvas");
       c.width = w; c.height = h; c.className = "hero-nut-layer"; c.setAttribute("aria-hidden", "true");
       const g = c.getContext("2d");
       g.drawImage(face, 0, 0, w, h);
-      g.globalCompositeOperation = "source-atop";       // escurece so onde ha metal
-      // da face (clara) ate o fundo (#0E0D0B): a lateral esmaece em vez de formar uma faixa cinza na borda
-      g.fillStyle = `rgba(14,13,11,${(0.75 + 0.25 * Math.pow(i / LAYERS, 0.5)).toFixed(2)})`;
+      // Lateral = silhueta da face em cor UNICA por camada (nao uma copia da textura: 30 copias
+      // diferentes se misturavam num halo borrado). Do tom de aco escuro (junto da face) ate um
+      // aco quase grafite (no fundo da espessura): degrade com borda externa nitida, sem plato nem nevoa.
+      const t = Math.pow(i / LAYERS, 0.55);
+      const m = (a, b) => Math.round(a + (b - a) * t);
+      g.globalCompositeOperation = "source-in";
+      g.fillStyle = `rgb(${m(74, 28)},${m(71, 26)},${m(65, 23)})`;
       g.fillRect(0, 0, w, h);
       c.style.transform = `translateZ(${-i * STEP}px)`;
       stage.insertBefore(c, face);
