@@ -1,7 +1,7 @@
 /* F15: liquid metal na porca do hero (@paper-design/shaders, versao fixa).
    Carrega DEPOIS do conteudo (nao bloqueia render). O ShaderMount ja pausa fora
    da tela (IntersectionObserver) e com a aba oculta.
-   Sem canvas com prefers-reduced-motion ou sem WebGL2: fica a imagem parada do N4.
+   Sem canvas com prefers-reduced-motion ou sem WebGL2: fica a imagem parada (1o quadro do proprio shader).
    Mascara pre-processada offline (assets/marca/porca-liquid.png, R = gradiente da
    borda, G = opacidade) para nao rodar o solver no navegador do visitante. */
 (() => {
@@ -20,6 +20,10 @@
   // So os 4 modulos usados (o bundle +esm traz todos os shaders: ~900 ms de parse no celular).
   const LIB = "https://cdn.jsdelivr.net/npm/@paper-design/shaders@0.0.81/dist/";
   const MASK = "assets/marca/porca-liquid.png";
+  // Instante (ms) do shader em que foi renderizado o 1o quadro = assets/marca/porca-cromada.webp.
+  // Imagem parada e shader comecam IGUAIS: a troca nao muda forma, cor nem brilho.
+  // Se mudar os uniforms abaixo, renderize o webp de novo com este mesmo FRAME.
+  const FRAME = 3500;
 
   const start = async () => {
     try {
@@ -51,7 +55,7 @@
       (face ? face.parentNode : el).insertBefore(host, face ? face.nextSibling : null);
 
       new ShaderMount(host, liquidMetalFragmentShader, uniforms, { alpha: true, premultipliedAlpha: true },
-                      0.3, 0, 2);
+                      0.3, FRAME, 2);
       // 2 quadros para o 1o desenho; so entao troca a imagem parada pelo canvas
       requestAnimationFrame(() => requestAnimationFrame(() => el.classList.add("is-live")));
     } catch { /* sem rede/GL: a imagem parada continua */ }

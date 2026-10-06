@@ -40,11 +40,13 @@
       g.drawImage(face, 0, 0, w, h);
       g.globalCompositeOperation = "source-atop";       // escurece so onde ha metal
       // da face (clara) ate o fundo (#0E0D0B): a lateral esmaece em vez de formar uma faixa cinza na borda
-      g.fillStyle = `rgba(14,13,11,${(0.35 + 0.65 * Math.pow(i / LAYERS, 0.6)).toFixed(2)})`;
+      g.fillStyle = `rgba(14,13,11,${(0.75 + 0.25 * Math.pow(i / LAYERS, 0.5)).toFixed(2)})`;
       g.fillRect(0, 0, w, h);
       c.style.transform = `translateZ(${-i * STEP}px)`;
       stage.insertBefore(c, face);
     }
+    // espessura entra com fade (CSS) em vez de "pular" para o lugar
+    requestAnimationFrame(() => stage.classList.add("is-built"));
   };
   (face.decode ? face.decode() : Promise.resolve()).then(build).catch(() => {});
 
