@@ -56,19 +56,33 @@
 
   let tx = REST_X, ty = REST_Y, x = tx, y = ty;     // rotacao: alvo e atual
   let gx = 0.5, gy = 0.5, gtx = 0.5, gty = 0.5;     // posicao do brilho (0..1)
-  let last = 0, raf = 0;
+  let last = 0, drawn = 0, raf = 0, hold = 0, inside = false, visible = true;
+  const t0 = performance.now();
+  const smooth = (p) => p * p * (3 - 2 * p);
 
+  // Sem o mouse em cima, a luz "respira": orbita eliptica lenta (~20 s) e pulso de intensidade
+  // (referencia: Next.js Flare, vgpu.sh). Com o mouse, a luz segue o cursor e o pulso sobe a 1.
   const tick = (now) => {
-    const k = 1 - Math.exp(-Math.min(now - (last || now - 16), 50) / TAU);
-    last = now;
-    x += (tx - x) * k; y += (ty - y) * k; gx += (gtx - gx) * k; gy += (gty - gy) * k;
+    const dt = Math.min(now - (last || now - 16), 50);
+    if (!inside && now - drawn < 33) { raf = requestAnimationFrame(tick); return; }   // repouso: ~30 fps
+    last = now; drawn = now;
+    const k = 1 - Math.exp(-dt / TAU), kl = 1 - Math.exp(-dt / 300);
+    x += (tx - x) * k; y += (ty - y) * k;
+    const s0 = (now - t0) / 1000;
+    if (!inside) {
+      const ph = s0 * 0.32, rad = 0.34 + 0.09 * Math.sin(ph * 0.83);
+      gtx = 0.5 + Math.cos(ph) * rad * 1.1; gty = 0.5 - Math.sin(ph) * rad * 0.85;
+    }
+    gx += (gtx - gx) * kl; gy += (gty - gy) * kl;
+    hold += ((inside ? 1 : 0) - hold) * kl;
+    const pulse = 0.2 + 0.8 * smooth(0.5 + 0.5 * Math.sin(s0 * 0.9)), idle = 0.55 * pulse;
+    el.style.setProperty("--sheen", (idle + (1 - idle) * hold).toFixed(3));
     stage.style.transform = `perspective(750px) rotateX(${x.toFixed(2)}deg) rotateY(${y.toFixed(2)}deg)`;
     const r = el.offsetWidth;                         // brilho: ~85% da largura
     const s = r * 0.85;
     glow.style.width = glow.style.height = `${s}px`;
     glow.style.transform = `translate3d(${(gx * r - s / 2).toFixed(1)}px, ${(gy * el.offsetHeight - s / 2).toFixed(1)}px, 0)`;
-    const moving = Math.abs(tx - x) + Math.abs(ty - y) + Math.abs(gtx - gx) + Math.abs(gty - gy) > 0.002;
-    raf = moving ? requestAnimationFrame(tick) : ((last = 0), 0);
+    raf = visible && !document.hidden ? requestAnimationFrame(tick) : ((last = 0), 0);
   };
   const go = () => { if (!raf) raf = requestAnimationFrame(tick); };
 
@@ -79,9 +93,12 @@
     // curso total em 80% da caixa: vira inteira antes de o cursor chegar na borda
     const nx = Math.max(-1, Math.min(1, (px - 0.5) / 0.4)), ny = Math.max(-1, Math.min(1, (py - 0.5) / 0.4));
     ty = nx * MAX_Y; tx = -ny * MAX_X;
-    gtx = px; gty = py;
+    gtx = px; gty = py; inside = true;
     go();
   });
-  el.addEventListener("pointerleave", () => { tx = REST_X; ty = REST_Y; go(); });
+  el.addEventListener("pointerleave", () => { tx = REST_X; ty = REST_Y; inside = false; go(); });
+  // fora da tela ou aba oculta: o laco para de verdade
+  new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible) go(); }).observe(el);
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) go(); });
   go();
 })();
