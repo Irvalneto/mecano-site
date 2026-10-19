@@ -32,7 +32,7 @@
 
   <header class="site-header">
     <div class="container bar">
-      <a class="logo" href="index.html" aria-label="Mecano Soluções Digitais — início"><img src="assets/marca/lockup-fundo-escuro.svg" alt="" width="146" height="36" /></a>
+      <a class="logo" href="index.html" aria-label="Mecano Soluções Digitais, início"><img src="assets/marca/lockup-fundo-escuro.svg" alt="" width="146" height="36" /></a>
       <nav class="nav-primary" aria-label="Navegação principal">
         <ul>
           <li><a href="index.html">Home</a></li>
@@ -60,18 +60,20 @@
   </nav>
 
   <main id="main">
-    <section class="hero section-dark">
+    <section class="hero hero-page section-dark">
       <div class="container">
         <span class="tag">Serviços</span>
         <h1>Seis formas de resolver um problema <em>digital</em></h1>
         <p class="lede">Cada serviço abaixo é explicado em linguagem simples, com um exemplo do dia a dia. Se o seu caso é uma mistura de mais de um, a primeira conversa já resolve isso.</p>
+        <div class="hero-nut" aria-hidden="true">
+          <img src="assets/marca/porca-cromada.webp" width="600" height="693" alt="" decoding="async" />
+        </div>
       </div>
     </section>
 
     <section aria-labelledby="escolha-h2">
       <div class="container">
         <div class="section-head" data-reveal>
-          <span class="tag">Escolha rápida</span>
           <h2 id="escolha-h2">Por onde <em>começar</em>?</h2>
         </div>
         <ul class="quick-pick" data-reveal>
@@ -151,38 +153,49 @@
       </div>
     </section>
 
-    <section style="background:var(--color-surface); border-block:1px solid var(--color-support-2);" aria-labelledby="processo-h2">
+    <!-- PROCESSO: a porca se monta nas 4 etapas (js/story.js; sem JS, porca pronta e etapas em lista) -->
+    <section class="story" aria-labelledby="processo-h2">
       <div class="container">
-        <div class="section-head" data-reveal>
+        <div class="section-head story-head" data-reveal>
           <span class="tag">Como funciona</span>
           <h2 id="processo-h2">Quatro <em>etapas</em>, sem zona cinzenta</h2>
           <p>Vale para todos os serviços. A consultoria começa igual: contato, entendimento e orçamento.</p>
         </div>
-        <div class="steps">
-          <div class="step" data-reveal>
-            <img class="step-mock" src="assets/maquetes/proc-conversa.svg" alt="" width="280" height="180" loading="lazy" decoding="async" />
-            <span class="num">01 / 04</span>
-            <h3>Conversa</h3>
-            <p>Entramos em contato e entendemos o que você quer.</p>
+        <div class="story-track" data-story data-step="1">
+          <div class="story-stage" aria-hidden="true">
+            <div class="story-nut">
+              <svg class="bp" viewBox="2.87 -1.64 58.25 67.28" focusable="false">
+                <path class="hex" pathLength="1" d="M30.4 3.924A3.2 3.2 0 0 1 33.6 3.924L55.515 16.576A3.2 3.2 0 0 1 57.115 19.348L57.115 44.652A3.2 3.2 0 0 1 55.515 47.424L33.6 60.076A3.2 3.2 0 0 1 30.4 60.076L8.485 47.424A3.2 3.2 0 0 1 6.885 44.652L6.885 19.348A3.2 3.2 0 0 1 8.485 16.576Z"/>
+                <circle class="hole" pathLength="1" cx="32" cy="32" r="11.8"/>
+                <line class="dim" pathLength="1" x1="3.9" y1="3.9" x2="3.9" y2="60.1"/>
+                <line class="dim" pathLength="1" x1="6.9" y1="63.8" x2="57.1" y2="63.8"/>
+              </svg>
+              <img class="chrome" src="assets/marca/porca-cromada.webp" width="600" height="693" alt="" loading="lazy" decoding="async" />
+              <span class="weld"></span>
+            </div>
           </div>
-          <div class="step" data-reveal>
-            <img class="step-mock" src="assets/maquetes/proc-orcamento.svg" alt="" width="280" height="180" loading="lazy" decoding="async" />
-            <span class="num">02 / 04</span>
-            <h3>Orçamento</h3>
-            <p>Escopo, prazo e valor por escrito, sem custo e sem compromisso.</p>
-          </div>
-          <div class="step" data-reveal>
-            <img class="step-mock" src="assets/maquetes/proc-montagem.svg" alt="" width="280" height="180" loading="lazy" decoding="async" />
-            <span class="num">03 / 04</span>
-            <h3>Montagem</h3>
-            <p>Só começa se você aceitar o orçamento.</p>
-          </div>
-          <div class="step" data-reveal>
-            <img class="step-mock" src="assets/maquetes/proc-entrega.svg" alt="" width="280" height="180" loading="lazy" decoding="async" />
-            <span class="num">04 / 04</span>
-            <h3>Entrega</h3>
-            <p>O projeto vai ao ar funcionando, com 30 dias de ajustes.</p>
-          </div>
+          <ol class="story-steps">
+            <li class="story-step" data-step="1">
+              <span class="num">01</span>
+              <h3>Conversa</h3>
+              <p>Entramos em contato e entendemos o que você quer.</p>
+            </li>
+            <li class="story-step" data-step="2">
+              <span class="num">02</span>
+              <h3>Orçamento</h3>
+              <p>Escopo, prazo e valor por escrito, sem custo e sem compromisso.</p>
+            </li>
+            <li class="story-step" data-step="3">
+              <span class="num">03</span>
+              <h3>Montagem</h3>
+              <p>Só começa se você aceitar o orçamento.</p>
+            </li>
+            <li class="story-step" data-step="4">
+              <span class="num">04</span>
+              <h3>Entrega</h3>
+              <p>O projeto vai ao ar funcionando, com 30 dias de ajustes.</p>
+            </li>
+          </ol>
         </div>
       </div>
     </section>
@@ -198,7 +211,7 @@
   <footer class="site-footer">
     <div class="container">
       <div class="footer-top">
-        <a class="logo" href="index.html" aria-label="Mecano Soluções Digitais — início"><img src="assets/marca/lockup-fundo-escuro.svg" alt="" width="146" height="36" /></a>
+        <a class="logo" href="index.html" aria-label="Mecano Soluções Digitais, início"><img src="assets/marca/lockup-fundo-escuro.svg" alt="" width="146" height="36" /></a>
         <p>Soluções digitais sob medida: sites, automações, apps e SaaS.</p>
       </div>
       <div class="footer-grid">
@@ -242,6 +255,8 @@
 
   <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
   <script src="js/main.js"></script>
+  <script src="js/story.js" defer></script>
   <script src="js/chips.js" defer></script>
+  <script src="js/porca.js" defer></script>
 </body>
 </html>

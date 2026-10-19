@@ -49,7 +49,7 @@
 
   <header class="site-header">
     <div class="container bar">
-      <a class="logo" href="index.html" aria-label="Mecano Soluções Digitais — início"><img src="assets/marca/lockup-fundo-escuro.svg" alt="" width="146" height="36" /></a>
+      <a class="logo" href="index.html" aria-label="Mecano Soluções Digitais, início"><img src="assets/marca/lockup-fundo-escuro.svg" alt="" width="146" height="36" /></a>
 
       <nav class="nav-primary" aria-label="Navegação principal">
         <ul>
@@ -83,9 +83,9 @@
     <!-- HERO -->
     <section class="hero section-dark">
       <div class="container">
-        <span class="tag">Sites · Automações · Apps · SaaS</span>
+        <span class="tag">Sites, automações, apps e SaaS</span>
         <h1>Sites, apps e automações que já entram no ar <em>funcionando</em>.</h1>
-        <p class="lede">A Mecano projeta e constrói sites, aplicativos e sistemas sob medida para empresas e profissionais — sem enrolação, com escopo e prazo por escrito antes de começar.</p>
+        <p class="lede">Projetamos e construímos sites, aplicativos e sistemas sob medida, com escopo e prazo por escrito antes de começar.</p>
         <div class="hero-actions">
           <a class="btn btn-inverse" href="contato.html">Pedir orçamento</a>
           <a class="btn btn-outline-inverse" href="https://wa.me/5591993066577?text=Ola!%20Vim%20pelo%20site%20da%20Mecano%20e%20quero%20conversar%20sobre%20um%20projeto." rel="noopener">Conversar pelo WhatsApp</a>
@@ -94,6 +94,12 @@
         <div class="hero-nut" aria-hidden="true" data-liquid-metal>
           <img src="assets/marca/porca-cromada.webp" width="600" height="693" alt="" decoding="async" />
         </div>
+      </div>
+    </section>
+
+    <!-- FAIXA DE MÉTODO (fatos confirmados) -->
+    <section class="method-band" aria-label="Como começamos">
+      <div class="container">
         <ul class="method">
           <li><span class="method-label">Primeira conversa</span><span class="method-text">Sem custo e sem compromisso</span></li>
           <li><span class="method-label">Orçamento</span><span class="method-text">Escopo, prazo e valor por escrito</span></li>
@@ -103,11 +109,10 @@
       </div>
     </section>
 
-    <!-- SERVIÇOS (resumo assimétrico) -->
+    <!-- SERVIÇOS -->
     <section aria-labelledby="servicos-h2">
       <div class="container">
         <div class="section-head" data-reveal>
-          <span class="tag">O que fazemos</span>
           <h2 id="servicos-h2">Um problema técnico, <em>resolvido</em> até o fim</h2>
           <p>Não entregamos protótipo bonito. Entregamos o que <span class="hl"><span class="hl-bg" aria-hidden="true"></span>entra no ar e funciona</span> desde o primeiro dia. Atendemos primeiro pequenas e médias empresas, e também profissionais autônomos.</p>
         </div>
@@ -117,7 +122,7 @@
 <article class="svc-card" role="tabpanel" id="sites" aria-labelledby="tab-sites">
 <div class="svc-text">
 <h3>Sites</h3>
-<p>Páginas na internet que apresentam sua empresa e levam o cliente a falar com você. Rápidas, boas no celular e feitas para gerar contato — não só para existir.</p>
+<p>Páginas na internet que apresentam sua empresa e levam o cliente a falar com você. Rápidas, boas no celular e feitas para gerar contato, não só para existir.</p>
 <a class="btn btn-ghost" href="servicos.html#sites">Ver detalhes</a>
 </div>
 <div class="svc-mock"><img src="assets/maquetes/svc-site.svg" alt="" width="320" height="200" loading="lazy" decoding="async" /></div>
@@ -166,38 +171,48 @@
       </div>
     </section>
 
-    <!-- PROCESSO -->
-    <section aria-labelledby="processo-h2" style="background:var(--color-surface); border-block:1px solid var(--color-support-2);">
+    <!-- PROCESSO: a porca se monta nas 4 etapas (js/story.js; sem JS, porca pronta e etapas em lista) -->
+    <section class="story" aria-labelledby="processo-h2">
       <div class="container">
-        <div class="section-head" data-reveal>
+        <div class="section-head story-head" data-reveal>
           <span class="tag">Como funciona</span>
           <h2 id="processo-h2">Quatro <em>etapas</em>, sem zona cinzenta</h2>
         </div>
-        <div class="steps">
-          <div class="step" data-reveal>
-            <img class="step-mock" src="assets/maquetes/proc-conversa.svg" alt="" width="280" height="180" loading="lazy" decoding="async" />
-            <span class="num">01 / 04</span>
-            <h3>Conversa</h3>
-            <p>Entramos em contato e entendemos o que você quer.</p>
+        <div class="story-track" data-story data-step="1">
+          <div class="story-stage" aria-hidden="true">
+            <div class="story-nut">
+              <svg class="bp" viewBox="2.87 -1.64 58.25 67.28" focusable="false">
+                <path class="hex" pathLength="1" d="M30.4 3.924A3.2 3.2 0 0 1 33.6 3.924L55.515 16.576A3.2 3.2 0 0 1 57.115 19.348L57.115 44.652A3.2 3.2 0 0 1 55.515 47.424L33.6 60.076A3.2 3.2 0 0 1 30.4 60.076L8.485 47.424A3.2 3.2 0 0 1 6.885 44.652L6.885 19.348A3.2 3.2 0 0 1 8.485 16.576Z"/>
+                <circle class="hole" pathLength="1" cx="32" cy="32" r="11.8"/>
+                <line class="dim" pathLength="1" x1="3.9" y1="3.9" x2="3.9" y2="60.1"/>
+                <line class="dim" pathLength="1" x1="6.9" y1="63.8" x2="57.1" y2="63.8"/>
+              </svg>
+              <img class="chrome" src="assets/marca/porca-cromada.webp" width="600" height="693" alt="" loading="lazy" decoding="async" />
+              <span class="weld"></span>
+            </div>
           </div>
-          <div class="step" data-reveal>
-            <img class="step-mock" src="assets/maquetes/proc-orcamento.svg" alt="" width="280" height="180" loading="lazy" decoding="async" />
-            <span class="num">02 / 04</span>
-            <h3>Orçamento</h3>
-            <p>Escopo, prazo e valor por escrito, sem custo e sem compromisso.</p>
-          </div>
-          <div class="step" data-reveal>
-            <img class="step-mock" src="assets/maquetes/proc-montagem.svg" alt="" width="280" height="180" loading="lazy" decoding="async" />
-            <span class="num">03 / 04</span>
-            <h3>Montagem</h3>
-            <p>Só começa se você aceitar o orçamento.</p>
-          </div>
-          <div class="step" data-reveal>
-            <img class="step-mock" src="assets/maquetes/proc-entrega.svg" alt="" width="280" height="180" loading="lazy" decoding="async" />
-            <span class="num">04 / 04</span>
-            <h3>Entrega</h3>
-            <p>O projeto vai ao ar funcionando, com 30 dias de ajustes.</p>
-          </div>
+          <ol class="story-steps">
+            <li class="story-step" data-step="1">
+              <span class="num">01</span>
+              <h3>Conversa</h3>
+              <p>Entramos em contato e entendemos o que você quer.</p>
+            </li>
+            <li class="story-step" data-step="2">
+              <span class="num">02</span>
+              <h3>Orçamento</h3>
+              <p>Escopo, prazo e valor por escrito, sem custo e sem compromisso.</p>
+            </li>
+            <li class="story-step" data-step="3">
+              <span class="num">03</span>
+              <h3>Montagem</h3>
+              <p>Só começa se você aceitar o orçamento.</p>
+            </li>
+            <li class="story-step" data-step="4">
+              <span class="num">04</span>
+              <h3>Entrega</h3>
+              <p>O projeto vai ao ar funcionando, com 30 dias de ajustes.</p>
+            </li>
+          </ol>
         </div>
       </div>
     </section>
@@ -206,44 +221,36 @@
     <section aria-labelledby="diferenciais-h2">
       <div class="container">
         <div class="section-head" data-reveal>
-          <span class="tag">Por que a Mecano</span>
           <h2 id="diferenciais-h2">Diferenciais que você pode <em>verificar</em></h2>
         </div>
-        <ul class="diff-list">
-          <li class="diff-item" data-reveal>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>
-            <div>
-              <h3>Entregamos funcionando</h3>
-              <p>O que combinamos está no ar e funcionando desde o primeiro dia.</p>
-            </div>
-          </li>
-          <li class="diff-item" data-reveal>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
-            <div>
-              <h3>Escopo e prazo por escrito</h3>
-              <p>Antes de começar, você recebe por escrito o que será feito e em que prazo.</p>
-            </div>
-          </li>
-          <li class="diff-item" data-reveal>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v18M3 12h18"/></svg>
-            <div>
-              <h3>Comunicação direta</h3>
-              <p>Você fala com quem constrói o projeto — não com um atendimento que só repassa pedidos.</p>
-            </div>
-          </li>
-          <li class="diff-item" data-reveal>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 13l4 4L19 7"/></svg>
-            <div>
-              <h3>30 dias de ajustes</h3>
-              <p>Depois que o projeto vai ao ar, ajustamos o que for preciso por 30 dias.</p>
-            </div>
-          </li>
-        </ul>
+        <div class="bento">
+          <div class="bento-cell bento-a" data-reveal>
+            <img class="bento-nut" src="assets/marca/porca-cromada.webp" width="600" height="693" alt="" loading="lazy" decoding="async" />
+            <h3>Entregamos funcionando</h3>
+            <p>O que combinamos está no ar e funcionando desde o primeiro dia.</p>
+          </div>
+          <div class="bento-cell bento-b" data-reveal>
+            <span class="bento-num" aria-hidden="true">30</span>
+            <h3>30 dias de ajustes</h3>
+            <p>Depois que o projeto vai ao ar, ajustamos o que for preciso por 30 dias.</p>
+          </div>
+          <div class="bento-cell bento-c" data-reveal>
+            <img class="bento-mock" src="assets/maquetes/proc-orcamento.svg" width="280" height="180" alt="" loading="lazy" decoding="async" />
+            <h3>Escopo e prazo por escrito</h3>
+            <p>Antes de começar, você recebe por escrito o que será feito e em que prazo.</p>
+          </div>
+          <div class="bento-cell bento-d" data-reveal>
+            <img class="bento-mock" src="assets/maquetes/proc-conversa.svg" width="280" height="180" alt="" loading="lazy" decoding="async" />
+            <h3>Comunicação direta</h3>
+            <p>Você fala com quem constrói o projeto, não com um atendimento que só repassa pedidos.</p>
+          </div>
+        </div>
       </div>
     </section>
 
     <!-- CTA final -->
     <section class="cta-band section-dark">
+      <img class="cta-nut" src="assets/marca/porca-cromada.webp" width="600" height="693" alt="" loading="lazy" decoding="async" />
       <div class="container">
         <h2>Tem um <em>projeto</em> em mente?</h2>
         <a class="btn btn-inverse" href="contato.html">Pedir orçamento</a>
@@ -254,7 +261,7 @@
   <footer class="site-footer">
     <div class="container">
       <div class="footer-top">
-        <a class="logo" href="index.html" aria-label="Mecano Soluções Digitais — início"><img src="assets/marca/lockup-fundo-escuro.svg" alt="" width="146" height="36" /></a>
+        <a class="logo" href="index.html" aria-label="Mecano Soluções Digitais, início"><img src="assets/marca/lockup-fundo-escuro.svg" alt="" width="146" height="36" /></a>
         <p>Soluções digitais sob medida: sites, automações, apps e SaaS.</p>
       </div>
       <div class="footer-grid">
@@ -299,6 +306,7 @@
   <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script>
   <script src="js/main.js"></script>
   <script src="js/chips.js" defer></script>
+  <script src="js/story.js" defer></script>
   <script src="js/porca.js" defer></script>
   <script type="module" src="js/porca-shader.js"></script>
 </body>

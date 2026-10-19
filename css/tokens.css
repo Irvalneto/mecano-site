@@ -149,3 +149,25 @@
 @media (prefers-reduced-motion: reduce) {
   :root { --dur-fast: 0ms; --dur-base: 0ms; --dur-enter: 0ms; }
 }
+
+/* ============================================================
+   MUNDO ESCURO (redesenho imersivo)
+   Um unico mundo grafite em todas as paginas: so os papeis
+   semanticos mudam; a paleta do manual continua a mesma.
+   Papel (#F4F2EC) vira texto e luz; solda segue sendo a unica
+   cor de acao, ~8% da area.
+   ============================================================ */
+:root {
+  color-scheme: dark;
+  --color-bg-light: var(--color-grafite);
+  --color-text: var(--color-papel);
+  --color-text-muted: var(--color-aco);
+  --color-surface: var(--color-panel-dark);
+  --color-support-2: var(--color-line-dark);
+  --accent-ink: var(--color-solda);
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
+  --shadow-md: 0 24px 60px rgb(0 0 0 / 0.45);
+  --glass: rgb(14 13 11 / 0.72);
+  --hairline: rgb(244 242 236 / 0.1);
+  --header-h: 72px;
+}

@@ -607,3 +607,223 @@ h1 em, h2 em { font-style: italic; color: var(--accent-ink); padding-right: 0.06
   .chip:active, .btn:active { transform: none; }
   .svc.is-tabs .svc-card, .faq details[open] p { animation: none; }
 }
+
+/* ============================================================
+   IMERSIVO: mundo escuro unico, vidro, narrativa de rolagem.
+   Tudo abaixo e camada por cima do sistema acima.
+   ============================================================ */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+}
+
+/* --- Cabecalho de vidro + progresso de leitura (so onde ha scroll-timeline) --- */
+.site-header {
+  view-transition-name: site-header;
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  backdrop-filter: blur(20px) saturate(160%);
+  border-bottom-color: var(--hairline);
+}
+@media (prefers-reduced-transparency: reduce) {
+  .site-header { background: var(--color-bg-dark); -webkit-backdrop-filter: none; backdrop-filter: none; }
+}
+.site-header::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px;
+  background: var(--color-accent); transform: scaleX(0); transform-origin: left; pointer-events: none;
+}
+@supports (animation-timeline: scroll()) {
+  .site-header::after { animation: read-progress linear both; animation-timeline: scroll(root block); }
+}
+@keyframes read-progress { to { transform: scaleX(1); } }
+.site-footer { border-top: 1px solid var(--hairline); }
+
+/* --- Ajustes do mundo escuro: o que usava grafite como texto/fundo de controle --- */
+.skip-link { background: var(--color-accent); color: var(--color-bg-dark); }
+.btn-ghost { color: var(--color-text); border-color: var(--hairline); }
+.btn-ghost:hover { border-color: var(--color-text); }
+.chip { border-color: var(--hairline); }
+.chip[aria-selected="true"] { background: var(--color-papel); border-color: var(--color-papel); color: var(--color-grafite); }
+.field input, .field select, .field textarea { color: var(--color-text); border-color: var(--hairline); background: var(--color-surface); }
+.field input::placeholder, .field textarea::placeholder { color: var(--color-aco); }
+.field input:focus, .field select:focus, .field textarea:focus { border-color: var(--color-accent); }
+@media (hover: hover) and (pointer: fine) {
+  .chip:hover { border-color: var(--color-aco); }
+  .svc-card:hover, .step:hover { border-color: var(--color-aco); }
+}
+
+/* --- Hero: dobra inteira, porca grande --- */
+.hero {
+  min-height: calc(100dvh - var(--header-h));
+  display: flex; align-items: center;
+  position: relative; overflow: clip;
+  padding-block: var(--sp-8);
+  background:
+    radial-gradient(ellipse 60% 70% at 78% 52%, rgb(244 242 236 / 0.08), transparent 70%),
+    radial-gradient(ellipse 80% 45% at 70% 120%, rgb(255 90 31 / 0.22), transparent 70%),
+    var(--color-bg-dark);
+}
+.hero h1 { font-size: clamp(1.875rem, 1.1rem + 2.4vw, 2.875rem); text-wrap: pretty; }
+.hero-nut { width: 9rem; }
+@media (min-width: 1024px) {
+  .hero .container:has(> .hero-nut) { grid-template-columns: minmax(0, 1fr) 27rem; column-gap: var(--sp-7); }
+  .hero .container:has(> .hero-nut) > .hero-nut { align-self: center; margin: 0; }
+}
+
+/* --- Faixa de metodo (saiu de dentro do hero) --- */
+.method-band { padding-block: var(--sp-7); background: var(--color-surface); border-block: 1px solid var(--color-support-2); }
+.method-band .method { margin: 0; }
+
+/* --- Servicos: vidro e profundidade --- */
+.svc-card {
+  background: linear-gradient(160deg, rgb(244 242 236 / 0.06), rgb(244 242 236 / 0.015) 60%), var(--color-surface);
+  border-color: var(--hairline);
+}
+.svc-mock { border-color: var(--hairline); box-shadow: var(--shadow-md); }
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .svc-mock { transition: transform var(--dur-enter) var(--ease-out); }
+  .svc-card:hover .svc-mock { transform: perspective(900px) rotateY(-5deg) rotateX(2deg) translateY(-4px); }
+}
+
+/* --- Historia de rolagem: a porca se monta nas 4 etapas ---
+   Sem JS ou com movimento reduzido: porca pronta + 4 etapas em lista, sem estados.
+   js/story.js liga .is-live e troca data-step; so transicoes CSS (interrompiveis). */
+.story { padding-bottom: 0; border-top: 1px solid var(--color-support-2); }
+.story-head { margin-bottom: var(--sp-5); }
+.story-track { --ry: -14deg; display: grid; grid-template-columns: minmax(0, 1fr); position: relative; }
+.story-track[data-step="2"] { --ry: -8deg; }
+.story-track[data-step="3"] { --ry: 6deg; }
+.story-track[data-step="4"] { --ry: -4deg; }
+.story-stage {
+  position: sticky; top: var(--header-h); z-index: 2;
+  height: min(38dvh, 20rem);
+  display: grid; place-items: center;
+  background: linear-gradient(to bottom, var(--color-bg-dark) 78%, transparent);
+}
+.story-nut {
+  position: relative; height: 76%; aspect-ratio: 600 / 693;
+  transform: perspective(900px) rotateY(var(--ry));
+  transition: transform 900ms var(--ease-out);
+}
+.story-nut > * { position: absolute; inset: 0; width: 100%; height: 100%; }
+.story-nut .chrome { object-fit: contain; }
+.story-nut .bp { left: -8%; top: -8%; width: 116%; height: 116%; overflow: visible; opacity: 0; transition: opacity 600ms var(--ease-out); }
+.bp path, .bp circle, .bp line {
+  fill: none; stroke: var(--color-aco); stroke-width: 0.3; stroke-linecap: round;
+  stroke-dasharray: 1; stroke-dashoffset: 1;
+  transition: stroke-dashoffset 1200ms var(--ease-in-out);
+}
+.story-nut .weld {
+  inset: auto; left: 6%; top: 46%; width: 88%; height: 2px;
+  background: var(--color-accent); opacity: 0; transform: scaleX(0);
+  transition: transform 700ms var(--ease-out), opacity 500ms var(--ease-out);
+}
+.story-steps { list-style: none; margin: 0; padding: 0; }
+.story-step { min-height: 58dvh; display: flex; flex-direction: column; justify-content: center; padding-block: var(--sp-6); }
+.story-step:last-child { min-height: 70dvh; }
+.story-step .num { font-family: var(--font-mono); font-weight: var(--weight-mono); font-size: 0.8125rem; color: var(--accent-ink); }
+.story-step h3 { font-size: var(--fs-h2); margin: var(--sp-2) 0 var(--sp-3); }
+.story-step p { font-size: var(--fs-body); color: var(--color-text-muted); margin: 0; }
+
+.story.is-live .story-step h3, .story.is-live .story-step p { opacity: 0.72; transition: opacity 500ms var(--ease-out); }
+.story.is-live .story-step p { color: var(--color-papel); }
+.story.is-live .story-step.is-active h3, .story.is-live .story-step.is-active p { opacity: 1; }
+.story.is-live .story-step.is-active p { color: var(--color-text-muted); }
+.story.is-live .chrome { clip-path: inset(100% 0 0 0); transition: clip-path 1100ms var(--ease-in-out); }
+.story.is-live .bp { opacity: 1; }
+.story.is-live .bp .hex { stroke-dashoffset: 0.5; }
+.story.is-live .bp .dim { stroke-dashoffset: 1; }
+.story.is-live [data-step="2"] .bp .hex,
+.story.is-live [data-step="2"] .bp .hole,
+.story.is-live [data-step="2"] .bp .dim,
+.story.is-live [data-step="3"] .bp .hex,
+.story.is-live [data-step="3"] .bp .hole,
+.story.is-live [data-step="3"] .bp .dim,
+.story.is-live [data-step="4"] .bp .hex,
+.story.is-live [data-step="4"] .bp .hole { stroke-dashoffset: 0; }
+.story.is-live [data-step="3"] .bp { opacity: 0.5; }
+.story.is-live [data-step="4"] .bp { opacity: 0; }
+.story.is-live [data-step="3"] .chrome { clip-path: inset(46% 0 0 0); }
+.story.is-live [data-step="4"] .chrome { clip-path: inset(0); }
+.story.is-live [data-step="3"] .weld { opacity: 1; transform: scaleX(1); }
+
+@media (min-width: 1024px) {
+  .story-track { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: var(--sp-9); align-items: start; }
+  .story-stage { grid-column: 2; grid-row: 1; top: calc(var(--header-h) + var(--sp-5)); height: calc(100dvh - var(--header-h) - var(--sp-7)); background: none; }
+  .story-steps { grid-column: 1; grid-row: 1; }
+  .story-step { min-height: 78dvh; }
+  .story-nut { height: 72%; }
+}
+
+/* --- Diferenciais: bento com 4 celulas e ritmo (4+2 / 2+4) --- */
+.bento { display: grid; gap: var(--sp-4); grid-template-columns: minmax(0, 1fr); }
+.bento-cell {
+  position: relative; overflow: hidden; isolation: isolate;
+  display: flex; flex-direction: column; justify-content: flex-end;
+  min-height: 15rem; padding: var(--sp-6);
+  background: var(--color-surface); border: 1px solid var(--hairline); border-radius: var(--radius-lg);
+}
+.bento-cell h3 { font-size: var(--fs-h3); margin-bottom: var(--sp-2); }
+.bento-cell p { margin: 0; font-size: var(--fs-small); color: var(--color-text-muted); max-width: 34ch; }
+.bento-nut { position: absolute; z-index: -1; right: -14%; top: -10%; height: 72%; width: auto; opacity: 0.9; }
+.bento-num {
+  font-family: var(--font-display); font-stretch: var(--stretch-display); font-weight: var(--weight-display);
+  font-size: clamp(4.5rem, 12vw, 8rem); line-height: 1; letter-spacing: var(--ls-heading);
+  margin-bottom: auto; color: var(--color-text);
+}
+.bento-b { background: radial-gradient(ellipse 90% 70% at 100% 0%, rgb(255 90 31 / 0.2), transparent 70%), var(--color-surface); }
+.bento-mock { width: 100%; height: auto; margin-bottom: var(--sp-5); border-radius: var(--radius-md); border: 1px solid var(--color-line-dark); }
+@media (min-width: 768px) {
+  .bento { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .bento-a, .bento-d { grid-column: span 4; }
+  .bento-b, .bento-c { grid-column: span 2; }
+  .bento-nut { right: -10%; top: 50%; height: 125%; transform: translateY(-50%); }
+  .bento-a p { max-width: 24ch; }
+  .bento-d .bento-mock { position: absolute; z-index: -1; right: var(--sp-6); top: var(--sp-6); width: 42%; margin: 0; }
+  .bento-d p { max-width: 28ch; }
+}
+
+/* --- Fecho: frase grande, porca cortada pela dobra --- */
+.cta-band { position: relative; overflow: clip; }
+.cta-band h2 { font-size: clamp(2.25rem, 1.2rem + 4.5vw, 4.5rem); }
+.cta-nut { display: none; }
+@media (min-width: 768px) {
+  .cta-band { text-align: left; }
+  .cta-band .container { align-items: flex-start; position: relative; z-index: 1; }
+  .cta-nut {
+    display: block; position: absolute; right: max(-4rem, calc(50% - 38rem)); bottom: -9rem;
+    width: 30rem; height: auto; pointer-events: none;
+  }
+}
+
+/* --- Paginas internas: heroi mais curto com a mesma porca interativa (js/porca.js, so tilt) --- */
+.hero.hero-page { min-height: calc(100dvh - var(--header-h)); align-items: flex-start; padding-top: var(--sp-8); }   /* celular: altura fixa, a troca de fonte nao empurra o resto (CLS) */
+@media (min-width: 1024px) {
+  .hero.hero-page { min-height: min(68dvh, 38rem); align-items: center; }
+  .hero.hero-page .container:has(> .hero-nut) { grid-template-columns: minmax(0, 1fr) 20rem; }
+  .hero.hero-page .container:has(> .hero-nut) > .hero-nut { grid-row: 1 / span 5; }
+}
+.page-404 .hero-nut { width: 9rem; }
+.page-404 .container > .btn { justify-self: start; margin-top: var(--sp-5); }
+
+/* --- Servicos: escolha rapida em linhas grandes --- */
+.quick-pick { max-width: none; gap: 0; border-top: 1px solid var(--hairline); }
+.quick-pick li {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--sp-2) var(--sp-4);
+  padding: var(--sp-5) 0; background: none; border: 0; border-bottom: 1px solid var(--hairline); border-radius: 0;
+  font-size: var(--fs-h4);
+}
+.quick-pick a { font-family: var(--font-display); font-stretch: var(--stretch-display); font-weight: var(--weight-display); }
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .quick-pick li { transition: padding-left var(--dur-base) var(--ease-out); }
+  .quick-pick li:hover { padding-left: var(--sp-4); }
+}
+
+/* --- Contato: formulario e canais em paineis de vidro --- */
+.form-grid > div {
+  padding: var(--sp-6); border: 1px solid var(--hairline); border-radius: var(--radius-lg);
+  background: linear-gradient(160deg, rgb(244 242 236 / 0.05), rgb(244 242 236 / 0.012) 60%), var(--color-surface);
+}
+
+/* --- Destaque no mundo escuro: texto claro com barra de solda fina embaixo (a barra cheia escondia o texto fora dela) --- */
+.hl { color: var(--color-text); }
+.hl-bg { inset: auto 0 0.04em 0; height: 0.2em; }

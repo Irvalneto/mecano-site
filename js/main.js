@@ -276,7 +276,7 @@ function initContactForm() {
       status.dataset.state = "error";
       status.innerHTML =
         "Não foi possível enviar pelo formulário agora. Fale com a gente por " + CONTACT_LINKS_HTML +
-        " — respondemos em até 1 dia útil.";
+        ". Respondemos em até 1 dia útil.";
     } finally {
       submitBtn.disabled = false;
       delete submitBtn.dataset.loading;
